@@ -23,6 +23,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"firebase": "^9.9.4"
+		"firebase": "^9.9.4",
+		"svelte-share-buttons-component": "^1.5.0"
 	}
 }
