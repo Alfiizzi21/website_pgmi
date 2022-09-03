@@ -70,6 +70,8 @@
 				</a>
 			</figure>
 
+
+
 			<div class="flex justify-between pt-2">
 				<div class="flex text-sm font-semibold text-slate-700">
 					<span class="material-icons text-base"> calendar_month </span>
@@ -77,7 +79,7 @@
 					<span class="material-icons ml-1 text-base"> schedule </span>
 					17:30
 				</div>
-				<Sharemodal url="{$page.url.origin}/berita/">
+				<Sharemodal  url="{$page.url.origin}/berita/">
 					<button class="">
 						<span class="material-icons"> share </span>
 					</button>

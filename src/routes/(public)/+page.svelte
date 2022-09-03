@@ -6,7 +6,7 @@
 
 <section id="hero">
 	<div class="absolute aspect-video w-full bg-black opacity-20" />
-	<img src="hero.jpg" alt="" />
+	<img src="hero.webp" alt="" />
 </section>
 <Container>
 	<div class=" grid grid-cols-4 pb-8">
