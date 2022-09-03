@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 
-import { initializeApp } from "@firebase/app";
+import { initializeApp } from "firebase/app";
 
 // import { getAnalytics } from "@firebase/analytics";
 
@@ -15,17 +15,17 @@ import { initializeApp } from "@firebase/app";
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyDWmTBbZ9DDwuFBO6K_qzBOap4XtxoT8xU",
+  apiKey: import.meta.env.VITE_apiKey,
 
   authDomain: "apipgmi.firebaseapp.com",
 
   projectId: "apipgmi",
 
-  storageBucket: "apipgmi.appspot.com",
+  storageBucket: import.meta.env.VITE_storageBucket,
 
-  messagingSenderId: "215714558161",
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
 
-  appId: "1:215714558161:web:5ae4524153162acf4315f0",
+  appId: import.meta.env.VITE_appId,
 
   measurementId: "G-7TRHNG0RJG"
 
