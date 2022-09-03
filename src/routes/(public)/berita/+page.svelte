@@ -86,7 +86,9 @@
 				</Sharemodal>
 			</div>
 			<a href="{$page.url.origin}/berita/">
-				<h2 class="text-lg font-semibold hover:text-sky-900 cursor-pointer" />
+				<h2 class="text-lg font-semibold hover:text-sky-900 cursor-pointer">
+					tes
+				</h2>
 			</a>
 		</div>
 

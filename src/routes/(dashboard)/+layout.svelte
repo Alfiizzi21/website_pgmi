@@ -4,7 +4,6 @@
     import { getAuth,onAuthStateChanged } from "firebase/auth";
     import { goto } from "$app/navigation";
     import { onMount } from 'svelte';
-    import { page } from "$app/stores";
 
     onMount(()=>{
         const auth = getAuth();
@@ -12,7 +11,7 @@
             if (user) {
                 console.log("login sukses");
             }else{
-                location.replace(`${$page.url.origin}/login`)
+                goto('/login')
             }
         })
     });
