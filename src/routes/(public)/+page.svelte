@@ -2,33 +2,31 @@
 	import img16_9 from '$lib/img/16_9.png';
 	import Container from '$lib/component/Container.svelte';
 	import { onMount } from 'svelte';
-	import { db } from "$lib/external/firebase.js";
-	import { timeConverter } from "$lib/script/lib.js";
+	import { db } from '$lib/external/firebase.js';
+	import { timeConverter } from '$lib/script/lib.js';
 	import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
-	
-	const host = import.meta.env.VITE_appUrl;
-	let berita = []
 
-	const getBerita = async ()=>{
-		const beritaRef = collection(db,"berita");
-		const q = query(beritaRef,orderBy("createdAt","desc"),limit(4));
-		let tempArr = []
+	const host = import.meta.env.VITE_appUrl;
+	let berita = [];
+
+	const getBerita = async () => {
+		const beritaRef = collection(db, 'berita');
+		const q = query(beritaRef, orderBy('createdAt', 'desc'), limit(4));
+		let tempArr = [];
 
 		let beritaSnapshot = await getDocs(q);
 
-		beritaSnapshot.forEach((doc)=>{
+		beritaSnapshot.forEach((doc) => {
 			let date = timeConverter(doc.data().createdAt.seconds);
 			let data = doc.data();
-			data.tanggal = date
-			tempArr = [...tempArr,data];
+			data.tanggal = date;
+			tempArr = [...tempArr, data];
 		});
-		berita = tempArr
-	}
+		berita = tempArr;
+	};
 
-
-
-	onMount(async ()=>{
-		getBerita()
+	onMount(async () => {
+		getBerita();
 	});
 </script>
 
@@ -50,12 +48,16 @@
 				</div>
 			</div>
 			<div class="grid md:grid-cols-3 md:grid-rows-4 xl:grid-rows-5 gap-2">
-				{#each berita as b,i}
+				{#each berita as b, i}
 					{#if i == 0}
 						<div class=" md:row-span-4 xl:row-span-5 md:col-span-2">
 							<figure class="overflow-hidden aspect-video w-full">
 								<a href="{host}/berita/{b.slug}">
-									<img class="transition-transform object-cover hover:scale-150" src={img16_9} alt="" />
+									<img
+										class="transition-transform object-cover hover:scale-150"
+										src={img16_9}
+										alt=""
+									/>
 								</a>
 							</figure>
 							<div class="font-semibold uppercase text-slate-400">{b.tanggal}</div>
@@ -83,8 +85,6 @@
 						</div>
 					{/if}
 				{/each}
-
-
 			</div>
 
 			<!-- {#each news as n, i}

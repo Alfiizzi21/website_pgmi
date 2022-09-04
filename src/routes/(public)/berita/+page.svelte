@@ -3,52 +3,48 @@
 	import Newsimg from '$lib/img/16_9.png';
 	import { page } from '$app/stores';
 	import Sharemodal from '$lib/component/Sharemodal.svelte';
-	import { db } from "$lib/external/firebase.js";
-	import { timeConverter,timeConverterToHour } from "$lib/script/lib.js";
+	import { db } from '$lib/external/firebase.js';
+	import { timeConverter, timeConverterToHour } from '$lib/script/lib.js';
 	import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
 	import { onMount } from 'svelte';
-    const host = import.meta.env.VITE_appUrl;
+	const host = import.meta.env.VITE_appUrl;
 
 	let berita = [];
 
-
-
 	let pilihanTahun;
 
-	const getBeritaByYear = async (year)=>{
+	const getBeritaByYear = async (year) => {
 		year = parseInt(year);
 		console.log(year);
-		const beritaRef = collection(db,"berita");
-		const q = query(beritaRef,where('year',"==",year));
-		let tempArr = []
+		const beritaRef = collection(db, 'berita');
+		const q = query(beritaRef, where('year', '==', year));
+		let tempArr = [];
 
 		let beritaSnapshot = await getDocs(q);
 
-		beritaSnapshot.forEach((doc)=>{
+		beritaSnapshot.forEach((doc) => {
 			const date = timeConverter(doc.data().createdAt.seconds);
 			const hour = timeConverterToHour(doc.data().createdAt.seconds);
 			const data = doc.data();
-			data.date = date
-			data.hour = hour
-			tempArr = [...tempArr,data];
+			data.date = date;
+			data.hour = hour;
+			tempArr = [...tempArr, data];
 		});
-		berita = tempArr
-	}
-	const selectYear = async ()=>{
+		berita = tempArr;
+	};
+	const selectYear = async () => {
 		setTimeout(() => {
-			getBeritaByYear(pilihanTahun)
+			getBeritaByYear(pilihanTahun);
 		}, 500);
-	}
+	};
 
-
-
-	let params = $page.url.searchParams
+	let params = $page.url.searchParams;
 	console.log(params.get('year'));
 
-	onMount(async ()=>{
+	onMount(async () => {
 		const tanggal = new Date();
-		getBeritaByYear(tanggal.getFullYear().toString())
-	})
+		getBeritaByYear(tanggal.getFullYear().toString());
+	});
 </script>
 
 <div class="text-2xl">
@@ -70,7 +66,7 @@
 <main class="container mx-auto">
 	<div class="">
 		<select
-			on:change="{selectYear}"
+			on:change={selectYear}
 			id="countries"
 			bind:value={pilihanTahun}
 			class="mx-auto block rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900  focus:border-blue-500 focus:ring-blue-500"
@@ -100,7 +96,7 @@
 						<span class="material-icons ml-1 text-base"> schedule </span>
 						{b.hour}
 					</div>
-					<Sharemodal  url="{host}/berita/{b.slug}">
+					<Sharemodal url="{host}/berita/{b.slug}">
 						<button class="">
 							<span class="material-icons"> share </span>
 						</button>
@@ -111,9 +107,8 @@
 						{b.title}
 					</h2>
 				</a>
-			</div>			
+			</div>
 		{/each}
-
 
 		<!-- <div class="card mx-4 sm:mx-0">
 			<img src={Newsimg} alt="" />

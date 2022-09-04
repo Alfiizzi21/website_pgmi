@@ -6,7 +6,7 @@
 		Facebook,
 		Twitter,
 		Line
-	} from 'svelte-share-buttons-component';	
+	} from 'svelte-share-buttons-component';
 
 	export let url = import.meta.env.VITE_appUrl;
 	export let title = '';

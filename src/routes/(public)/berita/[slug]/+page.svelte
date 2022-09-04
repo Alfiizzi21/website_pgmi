@@ -2,29 +2,28 @@
 	import Newsheader from '$lib/img/newsheader.jpg';
 	import Newsimg from '$lib/img/16_9.png';
 	import Sharemodal from '$lib/component/Sharemodal.svelte';
-	import { db } from "$lib/external/firebase.js";
+	import { db } from '$lib/external/firebase.js';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { collection, getDocs, query, where } from 'firebase/firestore';
 	const slug = $page.params.slug;
 
 	let berita = {
-		title:"loading",
-		body:"<p>loading</p>"
-	}
+		title: 'loading',
+		body: '<p>loading</p>'
+	};
 	let render = false;
 
-	onMount(async ()=>{
-		const beritaRef = collection(db,"berita");
-		const q = query(beritaRef,where("slug","==",slug));
+	onMount(async () => {
+		const beritaRef = collection(db, 'berita');
+		const q = query(beritaRef, where('slug', '==', slug));
 		const beritaSnapshot = await getDocs(q);
-		beritaSnapshot.forEach((e)=>{
+		beritaSnapshot.forEach((e) => {
 			berita = e.data();
 			render = true;
-		})
-	})
+		});
+	});
 	const url = $page.url.href;
-	
 </script>
 
 <div class="text-2xl">
@@ -37,7 +36,7 @@
 		id="header"
 		class="flex h-52 w-full  items-end p-10  font-bold uppercase text-white sm:h-auto md:text-4xl"
 	>
-	{berita.title}
+		{berita.title}
 	</div>
 
 	<Sharemodal {url}>
@@ -56,7 +55,7 @@
 {#if !render}
 	<div class="right-0 left-0 top-0 bottom-0 bg-black fixed bg-opacity-25">
 		<div class="w-40 h-20 mt-28 bg-white rounded mx-auto flex justify-center items-center">
-			<div class=" border-4 m border-t-sky-500 w-10 h-10 rounded-full animate-spin"></div>
+			<div class=" border-4 m border-t-sky-500 w-10 h-10 rounded-full animate-spin" />
 		</div>
 	</div>
 {/if}
@@ -66,7 +65,7 @@
 		aspect-ratio: 3/1;
 		background-color: rgba(0, 0, 0, 0.3);
 	}
-	p{
+	p {
 		text-indent: 1rem;
 	}
 </style>
