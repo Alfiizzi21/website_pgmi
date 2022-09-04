@@ -1,12 +1,12 @@
 <script >
-    import Editor from "cl-editor/src/Editor.svelte";
     import { db } from "$lib/external/firebase.js";
     import { updateDoc,serverTimestamp, doc, getDoc } from "firebase/firestore";
     import { goto } from "$app/navigation";
-    import { slugify } from "$lib/script/lib.js";
-    import Loading from "$lib/component/Loading.svelte";
     import { page } from "$app/stores";
     import { onMount } from "svelte";
+    import Editor from '@tinymce/tinymce-svelte';
+
+    const host = import.meta.env.VITE_appUrl;
 
 
 
@@ -35,7 +35,7 @@
         try {
         const docRef = await updateDoc(beritaRef, {
             title:inputTitle,
-            body:inputBody,
+            body: inputBody,
             updateAt : serverTimestamp()
         });
         alert('berita berhasil di update')
@@ -60,8 +60,13 @@
             </div>
             <div class="flex flex-col font-semibold gap-1 z-0">
                 <label for="title">Body</label>
+                <Editor 
+                bind:value={ inputBody } 
+                scriptSrc="{host}/tinymce/tinymce.min.js"
+                apiKey= {import.meta.env.VITE_tinyMceApiKey}
+                />
                 {#if renderBody}
-                    <Editor html={ inputBody } on:change={(evt)=>inputBody = evt.detail}/>
+                    <h1>tes</h1>
                     {:else}
                     <div class="right-0 left-0 top-0 bottom-0 bg-black fixed bg-opacity-25">
                         <div class="w-40 h-20 mt-28 bg-white rounded mx-auto flex justify-center items-center">

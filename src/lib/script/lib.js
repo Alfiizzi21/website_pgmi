@@ -45,3 +45,6 @@ export function timeConverterToHour(UNIX_timestamp){
     var time = date + ' ' + month + ' ' + year ;
     return time;
 }
+export function toParagraph(str){
+    return "<p class=\"indent-4\">" + str.replace(/\n/g, "</p>\n<p class=\"indent-4\">") + '</p>';
+}

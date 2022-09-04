@@ -25,7 +25,8 @@
 	"type": "module",
 	"dependencies": {
 		"@tinymce/tinymce-svelte": "^1.0.0",
-		"cl-editor": "^2.3.0",
+		"@tiptap/core": "^2.0.0-beta.183",
+		"@tiptap/starter-kit": "^2.0.0-beta.192",
 		"firebase": "^9.9.4",
 		"svelte-share-buttons-component": "^1.5.0"
 	}

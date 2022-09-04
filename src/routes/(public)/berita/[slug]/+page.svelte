@@ -10,7 +10,7 @@
 
 	let berita = {
 		title:"loading",
-		body:"loading"
+		body:"<p>loading</p>"
 	}
 	let render = false;
 
@@ -51,14 +51,14 @@
 
 <main class="container mx-auto">
 	<img class="pt-8" src={Newsimg} alt="" />
-	<div class="my-8 flex flex-col gap-2">{@html berita.body}</div>
+	<div class="my-8 flex flex-col gap-2 indent-4 px-2">{@html berita.body}</div>
 </main>
 {#if !render}
 	<div class="right-0 left-0 top-0 bottom-0 bg-black fixed bg-opacity-25">
 		<div class="w-40 h-20 mt-28 bg-white rounded mx-auto flex justify-center items-center">
-			<div class=" border-4 border-t-sky-500 w-10 h-10 rounded-full animate-spin"></div>
+			<div class=" border-4 m border-t-sky-500 w-10 h-10 rounded-full animate-spin"></div>
 		</div>
-	</div> 
+	</div>
 {/if}
 
 <style>
@@ -66,11 +66,7 @@
 		aspect-ratio: 3/1;
 		background-color: rgba(0, 0, 0, 0.3);
 	}
-	p {
+	p{
 		text-indent: 1rem;
-	}
-	ol {
-		margin-left: 2rem;
-		list-style-type: decimal;
 	}
 </style>

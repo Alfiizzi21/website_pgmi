@@ -1,12 +1,14 @@
 <script >
-    import Editor from "cl-editor/src/Editor.svelte";
     import { db } from "$lib/external/firebase.js";
     import { addDoc,collection,serverTimestamp } from "firebase/firestore";
     import { goto } from "$app/navigation";
-    import { slugify } from "$lib/script/lib.js";
+    import { slugify} from "$lib/script/lib.js";
+    import Editor from '@tinymce/tinymce-svelte';
 
-    let inputtitle
-    let inputbody
+    const host = import.meta.env.VITE_appUrl;
+
+    let inputTitle
+    let inputBody
     let button = "bg-green-500 text-white hover:bg-green-400";
     let disabled = "";
     let date = new Date();
@@ -20,9 +22,9 @@
         const beritaRef = collection(db,"berita")
         try {
         const docRef = await addDoc(beritaRef, {
-            title:inputtitle,
-            slug: slugify(inputtitle),
-            body:inputbody,
+            title:inputTitle,
+            slug: slugify(inputTitle),
+            body: inputBody,
             year: date.getFullYear(),
             createdAt : serverTimestamp(),
             updateAt : serverTimestamp()
@@ -44,11 +46,15 @@
     <form class="flex flex-col gap-4" method="post" on:submit|preventDefault={addBerita}>
         <div class="flex flex-col font-semibold gap-1">
             <label for="title">Title</label>
-            <input  bind:value="{inputtitle}" type="text" class="py-1 px-4 text-sm rounded" name="title" id="title">
+            <input  bind:value="{inputTitle}" type="text" class="py-1 px-4 text-sm rounded" name="title" id="title">
         </div>
         <div class="flex flex-col font-semibold gap-1 z-0">
             <label for="title">Body</label>
-            <Editor html={inputbody} on:change={(evt)=>inputbody = evt.detail}/>
+            <Editor 
+            bind:value={ inputBody } 
+            scriptSrc="{host}/tinymce/tinymce.min.js"
+            apiKey= {import.meta.env.VITE_tinyMceApiKey}
+            />
         </div>
         <!-- <div class="flex flex-col font-semibold gap-1 z-0">
             <label for="image">Image</label>
