@@ -4,7 +4,7 @@ export function truncate(str,limit) {
     }
     return str.slice(0,limit)+"..."
 }
-function slugify(str)
+export function slugify(str)
 {
     str = str.replace(/^\s+|\s+$/g, '');
 

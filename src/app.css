@@ -4,6 +4,6 @@
 
 @layer components {
 	.dashboard-section {
-		@apply ml-20 mt-4 rounded bg-sky-100 p-8 sm:mx-auto sm:max-w-md md:max-w-xl lg:max-w-4xl xl:max-w-6xl;
+		@apply ml-20 mt-4 rounded bg-sky-100 p-8 sm:mt-16 sm:mx-auto sm:max-w-md md:max-w-xl lg:max-w-4xl xl:max-w-6xl;
 	}
 }

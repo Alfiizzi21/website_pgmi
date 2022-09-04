@@ -3,7 +3,9 @@
     import { onMount } from 'svelte';
     import { db } from "$lib/external/firebase.js";
     import { collection, getDocs,doc, deleteDoc } from "firebase/firestore";
-    import Loading from "$lib/component/Loading.svelte"
+    import Loading from "$lib/component/Loading.svelte";
+    import { truncate } from "$lib/script/lib.js";
+
 
     let berita =[];
     let loading = true
@@ -23,12 +25,13 @@
     }
 
     const deleteBerita = async (id)=>{
-        loading = true;
-        const beritaRef = doc(db,'berita',id);
-        await deleteDoc(beritaRef);
-        await getBerita();
-        loading = false;
-        
+        if (confirm("anda yakin ingin menghapus ini ?")) {
+            loading = true;
+            const beritaRef = doc(db,'berita',id);
+            await deleteDoc(beritaRef);
+            await getBerita();
+            loading = false;            
+        }   
     }
 
     onMount(async ()=>{
@@ -74,7 +77,7 @@
                         <img src="{img16_9}" alt="news">
                     </td>
                     <td class="py-4 px-6">
-                        {@html b.body}
+                        {@html truncate(b.body,100)}
                     </td>
                     <td class="">
                         <div on:click="{e => deleteBerita(b.id)}" class="cursor-pointer hover:text-red-500"  >
