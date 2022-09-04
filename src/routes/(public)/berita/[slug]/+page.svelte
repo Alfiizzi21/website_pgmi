@@ -2,23 +2,29 @@
 	import Newsheader from '$lib/img/newsheader.jpg';
 	import Newsimg from '$lib/img/16_9.png';
 	import Sharemodal from '$lib/component/Sharemodal.svelte';
+	import { db } from "$lib/external/firebase.js";
 	import { page } from '$app/stores';
-
-	// async function getBeritaBySlug(slug) {
-	// 	let res = await fetch(`https://630f36a2498924524a884049.mockapi.io/api/berita?slug=${slug}`)
-	// 	let data = await res.json();
-
-	// 	// console.log(data);
-
-	// 	if (res.ok) {
-	// 		return data;
-	// 	} else {
-	// 		throw new Error(data);
-	// 	}
-	// }
-
-	const url = $page.url.href;
+	import { onMount } from 'svelte';
+	import { collection, getDocs, query, where } from 'firebase/firestore';
 	const slug = $page.params.slug;
+
+	let berita = {
+		title:"loading",
+		body:"loading"
+	}
+	let render = false;
+
+	onMount(async ()=>{
+		const beritaRef = collection(db,"berita");
+		const q = query(beritaRef,where("slug","==",slug));
+		const beritaSnapshot = await getDocs(q);
+		beritaSnapshot.forEach((e)=>{
+			berita = e.data();
+			render = true;
+		})
+	})
+	const url = $page.url.href;
+	
 </script>
 
 <div class="text-2xl">
@@ -31,7 +37,7 @@
 		id="header"
 		class="flex h-52 w-full  items-end p-10  font-bold uppercase text-white sm:h-auto md:text-4xl"
 	>
-		lorem
+	{berita.title}
 	</div>
 
 	<Sharemodal {url}>
@@ -43,12 +49,17 @@
 	</Sharemodal>
 </div>
 
-  
 <main class="container mx-auto">
 	<img class="pt-8" src={Newsimg} alt="" />
-	<div class="my-8 flex flex-col gap-2">lorem</div>
+	<div class="my-8 flex flex-col gap-2">{@html berita.body}</div>
 </main>
-<h2 class="h-[800px] font-semibold text-center md:mt-16">tidak ada berita</h2>
+{#if !render}
+	<div class="right-0 left-0 top-0 bottom-0 bg-black fixed bg-opacity-25">
+		<div class="w-40 h-20 mt-28 bg-white rounded mx-auto flex justify-center items-center">
+			<div class=" border-4 border-t-sky-500 w-10 h-10 rounded-full animate-spin"></div>
+		</div>
+	</div> 
+{/if}
 
 <style>
 	#header {

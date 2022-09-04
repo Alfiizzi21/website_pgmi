@@ -9,6 +9,9 @@
     let inputbody
     let button = "bg-green-500 text-white hover:bg-green-400";
     let disabled = "";
+    let date = new Date();
+
+    
 
     const addBerita = async ()=>{
         button = "bg-slate-300 text-slate-500";
@@ -20,6 +23,7 @@
             title:inputtitle,
             slug: slugify(inputtitle),
             body:inputbody,
+            year: date.getFullYear(),
             createdAt : serverTimestamp(),
             updateAt : serverTimestamp()
         });

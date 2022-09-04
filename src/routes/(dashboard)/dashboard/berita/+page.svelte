@@ -2,7 +2,7 @@
     import img16_9 from '$lib/img/16_9.png';
     import { onMount } from 'svelte';
     import { db } from "$lib/external/firebase.js";
-    import { collection, getDocs,doc, deleteDoc } from "firebase/firestore";
+    import { collection, getDocs,doc, deleteDoc, query, where, orderBy } from "firebase/firestore";
     import Loading from "$lib/component/Loading.svelte";
     import { truncate } from "$lib/script/lib.js";
 
@@ -12,7 +12,9 @@
     const host = import.meta.env.VITE_appUrl;
 
     const getBerita = async ()=>{
-        let beritaSnapshot = await getDocs(collection(db,'berita'));
+        const beritaRef = collection(db,'berita');
+        const q = query(beritaRef,orderBy("updateAt","desc"))
+        let beritaSnapshot = await getDocs(q);
         let tempArr = []
         beritaSnapshot.docs.forEach((doc)=>{
             let data = doc.data();
@@ -98,6 +100,10 @@
     </div>
 </section>
 {#if loading}
-    <Loading/>
+<div class="right-0 left-0 top-0 bottom-0 bg-black fixed bg-opacity-25">
+    <div class="w-40 h-20 mt-28 bg-white rounded mx-auto flex justify-center items-center">
+        <div class=" border-4 border-t-sky-500 w-10 h-10 rounded-full animate-spin"></div>
+    </div>
+</div> 
 {/if}
 

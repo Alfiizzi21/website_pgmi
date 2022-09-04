@@ -1,20 +1,21 @@
 <script>
+	import Container from '$lib/component/Container.svelte';
     import { getAuth,signInWithEmailAndPassword } from "firebase/auth";
     import { goto } from "$app/navigation";
-	import Container from '$lib/component/Container.svelte';
-
-
 
     let email
     let password
+    let loading = false
 
     const auth = getAuth();
 
     const login = async ()=>{
+        loading = true;
         let UserCredential = await signInWithEmailAndPassword(auth,email,password).then((UserCredential)=>{
-            localStorage.setItem('uid',UserCredential.user);
+            localStorage.setItem('uid',UserCredential.user.id);
             goto('/dashboard')
         }).catch((error)=>{
+            loading = false;
             alert("gagal login",error);
         });
         
@@ -37,3 +38,10 @@
         </form>
     </div>
 </Container>
+{#if loading}
+<div class="right-0 left-0 top-0 bottom-0 bg-black fixed bg-opacity-25">
+    <div class="w-40 h-20 mt-28 bg-white rounded mx-auto flex justify-center items-center">
+        <div class=" border-4 border-t-sky-500 w-10 h-10 rounded-full animate-spin"></div>
+    </div>
+</div>  
+{/if}

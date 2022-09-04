@@ -3,31 +3,52 @@
 	import Newsimg from '$lib/img/16_9.png';
 	import { page } from '$app/stores';
 	import Sharemodal from '$lib/component/Sharemodal.svelte';
+	import { db } from "$lib/external/firebase.js";
+	import { timeConverter,timeConverterToHour } from "$lib/script/lib.js";
+	import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
+	import { onMount } from 'svelte';
     const host = import.meta.env.VITE_appUrl;
 
-	let year;
+	let berita = [];
 
-	// console.log($page.url.searchParams);
-	// let params = $page.url.searchParams
-	// console.log(params.get('y'));
 
-	// async function getBeritaByYear(year) {
-	// 	let res = await fetch(`https://630f36a2498924524a884049.mockapi.io/api/berita?year=${year}&sortBy=createdAt&order=desc`)
-	// 	let data = await res.json();
 
-	// 	if (res.ok) {
-	// 		return data;
-	// 	} else {
-	// 		throw new Error(data)
+	let pilihanTahun;
 
-	// 	}
-	// }
+	const getBeritaByYear = async (year)=>{
+		year = parseInt(year);
+		console.log(year);
+		const beritaRef = collection(db,"berita");
+		const q = query(beritaRef,where('year',"==",year));
+		let tempArr = []
 
-	// const tanggal = new Date();
+		let beritaSnapshot = await getDocs(q);
 
-	// let year = tanggal.getFullYear().toString();
+		beritaSnapshot.forEach((doc)=>{
+			const date = timeConverter(doc.data().createdAt.seconds);
+			const hour = timeConverterToHour(doc.data().createdAt.seconds);
+			const data = doc.data();
+			data.date = date
+			data.hour = hour
+			tempArr = [...tempArr,data];
+		});
+		berita = tempArr
+	}
+	const selectYear = async ()=>{
+		setTimeout(() => {
+			getBeritaByYear(pilihanTahun)
+		}, 500);
+	}
 
-	// $: promiseBerita = getBeritaByYear(year)
+
+
+	let params = $page.url.searchParams
+	console.log(params.get('year'));
+
+	onMount(async ()=>{
+		const tanggal = new Date();
+		getBeritaByYear(tanggal.getFullYear().toString())
+	})
 </script>
 
 <div class="text-2xl">
@@ -44,13 +65,14 @@
 	</div>
 </div>
 <div class="p-2 text-sm text-slate-500 sm:p-8">
-	<a href={host}>Beranda</a> > <a href="{$page.url.origin}/berita">Semua Berita</a>
+	<a href={host}>Beranda</a> > <a href="{host}/berita">Semua Berita</a>
 </div>
 <main class="container mx-auto">
 	<div class="">
 		<select
+			on:change="{selectYear}"
 			id="countries"
-			bind:value={year}
+			bind:value={pilihanTahun}
 			class="mx-auto block rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900  focus:border-blue-500 focus:ring-blue-500"
 		>
 			<option value="2022">2022</option>
@@ -60,38 +82,38 @@
 		</select>
 	</div>
 	<section class="my-8 grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-		<div class="card mx-4 sm:mx-0">
-			<figure class="overflow-hidden">
-				<a href="{$page.url.origin}/berita/">
-					<img
-						class="hover:scale-150 transition-transform duration-500 cursor-pointer"
-						src={Newsimg}
-						alt=""
-					/>
-				</a>
-			</figure>
-
-
-
-			<div class="flex justify-between pt-2">
-				<div class="flex text-sm font-semibold text-slate-700">
-					<span class="material-icons text-base"> calendar_month </span>
-					17/8/2022
-					<span class="material-icons ml-1 text-base"> schedule </span>
-					17:30
+		{#each berita as b}
+			<div class="card mx-4 sm:mx-0">
+				<figure class="overflow-hidden">
+					<a href="{host}/berita/{b.slug}">
+						<img
+							class="hover:scale-150 transition-transform duration-500 cursor-pointer"
+							src={Newsimg}
+							alt=""
+						/>
+					</a>
+				</figure>
+				<div class="flex justify-between pt-2">
+					<div class="flex text-sm font-semibold text-slate-700">
+						<span class="material-icons text-base"> calendar_month </span>
+						{b.date}
+						<span class="material-icons ml-1 text-base"> schedule </span>
+						{b.hour}
+					</div>
+					<Sharemodal  url="{host}/berita/{b.slug}">
+						<button class="">
+							<span class="material-icons"> share </span>
+						</button>
+					</Sharemodal>
 				</div>
-				<Sharemodal  url="{$page.url.origin}/berita/">
-					<button class="">
-						<span class="material-icons"> share </span>
-					</button>
-				</Sharemodal>
-			</div>
-			<a href="{$page.url.origin}/berita/">
-				<h2 class="text-lg font-semibold hover:text-sky-900 cursor-pointer">
-					tes
-				</h2>
-			</a>
-		</div>
+				<a href="{host}/berita/{b.slug}">
+					<h2 class="text-lg font-semibold hover:text-sky-900 cursor-pointer">
+						{b.title}
+					</h2>
+				</a>
+			</div>			
+		{/each}
+
 
 		<!-- <div class="card mx-4 sm:mx-0">
 			<img src={Newsimg} alt="" />
