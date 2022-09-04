@@ -4,6 +4,7 @@
     import { getAuth,onAuthStateChanged,signOut } from "firebase/auth";
     import NavButton from '$lib/component/NavButton.svelte';
     import { goto } from "$app/navigation";
+    import Loading from "$lib/component/Loading.svelte";
     import { onMount } from 'svelte';
 
     let view = false;
@@ -48,5 +49,5 @@
     </button>
     <slot/>
     {:else}
-    <h1 class="text-center text-xl text-sky-900 font-bold uppercase mt-8 animate-pulse">loading...</h1>
+    <Loading/>
 {/if}
