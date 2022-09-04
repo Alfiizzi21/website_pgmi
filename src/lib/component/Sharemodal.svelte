@@ -6,10 +6,9 @@
 		Facebook,
 		Twitter,
 		Line
-	} from 'svelte-share-buttons-component';
-	import { page } from '$app/stores';
+	} from 'svelte-share-buttons-component';	
 
-	export let url = $page.url.origin;
+	export let url = import.meta.env.VITE_appUrl;
 	export let title = '';
 	export let desc = '';
 

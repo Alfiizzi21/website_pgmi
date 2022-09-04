@@ -1,9 +1,8 @@
 <script>
-    import { page } from '$app/stores';
     export let icon = 'dashboard';
     export let text = 'dashboard';
     export let link = '#';
-    let host = $page.url.origin;
+    let host = import.meta.env.VITE_appUrl;
 </script>
 
 

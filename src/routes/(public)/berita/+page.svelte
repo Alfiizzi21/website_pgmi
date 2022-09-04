@@ -3,6 +3,7 @@
 	import Newsimg from '$lib/img/16_9.png';
 	import { page } from '$app/stores';
 	import Sharemodal from '$lib/component/Sharemodal.svelte';
+    const host = import.meta.env.VITE_appUrl;
 
 	let year;
 
@@ -43,7 +44,7 @@
 	</div>
 </div>
 <div class="p-2 text-sm text-slate-500 sm:p-8">
-	<a href={$page.url.origin}>Beranda</a> > <a href="{$page.url.origin}/berita">Semua Berita</a>
+	<a href={host}>Beranda</a> > <a href="{$page.url.origin}/berita">Semua Berita</a>
 </div>
 <main class="container mx-auto">
 	<div class="">

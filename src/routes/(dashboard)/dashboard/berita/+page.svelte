@@ -1,0 +1,100 @@
+<script>
+    import img16_9 from '$lib/img/16_9.png';
+    import { onMount } from 'svelte';
+    import { db } from "$lib/external/firebase.js";
+    import { collection, getDocs,doc, deleteDoc } from "firebase/firestore";
+    import Loading from "$lib/component/Loading.svelte"
+
+    let berita =[];
+    let loading = true
+    const host = import.meta.env.VITE_appUrl;
+
+    const getBerita = async ()=>{
+        let beritaSnapshot = await getDocs(collection(db,'berita'));
+        let tempArr = []
+        beritaSnapshot.docs.forEach((doc)=>{
+            let data = doc.data();
+            data.id = doc.id
+            tempArr = [...tempArr,data];
+        }
+        );
+        berita = tempArr
+
+    }
+
+    const deleteBerita = async (id)=>{
+        loading = true;
+        const beritaRef = doc(db,'berita',id);
+        await deleteDoc(beritaRef);
+        await getBerita();
+        loading = false;
+        
+    }
+
+    onMount(async ()=>{
+        await getBerita()
+        loading = false
+    })
+</script>
+<section class="dashboard-section">
+    <div class="flex justify-between items-center">
+        <div class="py-2 font-semibold text-lg uppercase">Daftar berita</div>
+        <a href="{host}/dashboard/berita/add">
+        <span class="material-icons hover:text-green-500">
+            add
+        </span>
+        </a>
+    </div>
+    
+    <div class="overflow-x-auto relative">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                <tr>
+                    <th scope="col" class="py-3 px-6 text-center">
+                        Title
+                    </th>
+                    <th scope="col" class="md:w-52 text-center">
+                        Image
+                    </th>
+                    <th class="py-3 px-6">
+                        Body
+                    </th>
+                    <th scope="col" class="py-3 px-6 text-center">
+                        aksi
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {#each berita as b }
+                <tr class="bg-white border-b">
+                    <th  class="py-4 px-6 text-center font-medium">
+                        {b.title}
+                    </th>
+                    <td class="py-4 px-6 text-center">
+                        <img src="{img16_9}" alt="news">
+                    </td>
+                    <td class="py-4 px-6">
+                        {@html b.body}
+                    </td>
+                    <td class="">
+                        <div on:click="{e => deleteBerita(b.id)}" class="cursor-pointer hover:text-red-500"  >
+                            <span class="material-icons">
+                                delete
+                            </span>
+                        </div>
+                        <a href="{host}/dashboard/berita/edit/{b.id}" class="hover:text-blue-500">
+                            <span class="material-icons">
+                                edit
+                            </span>
+                        </a>
+                    </td>
+                </tr>
+                {/each}
+            </tbody>
+        </table>
+    </div>
+</section>
+{#if loading}
+    <Loading/>
+{/if}
+

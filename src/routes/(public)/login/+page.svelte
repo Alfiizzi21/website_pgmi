@@ -1,7 +1,8 @@
 <script>
-	import Container from '$lib/component/Container.svelte';
     import { getAuth,signInWithEmailAndPassword } from "firebase/auth";
     import { goto } from "$app/navigation";
+	import Container from '$lib/component/Container.svelte';
+
 
 
     let email
