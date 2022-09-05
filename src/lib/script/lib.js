@@ -50,3 +50,14 @@ export function timeConverter(UNIX_timestamp) {
 export function toParagraph(str) {
 	return '<p class="indent-4">' + str.replace(/\n/g, '</p>\n<p class="indent-4">') + '</p>';
 }
+export function removeTags(str) {
+    if ((str===null) || (str===''))
+        return false;
+    else
+        str = str.toString();
+          
+    // Regular expression to identify HTML tags in 
+    // the input string. Replacing the identified 
+    // HTML tag with a null string.
+    return str.replace( /(<([^>]+)>)/ig, '');
+}

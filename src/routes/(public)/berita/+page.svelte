@@ -84,7 +84,7 @@
 					<a href="{host}/berita/{b.slug}">
 						<img
 							class="hover:scale-150 transition-transform duration-500 cursor-pointer"
-							src={Newsimg}
+							src={b.image}
 							alt=""
 						/>
 					</a>

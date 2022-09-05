@@ -1,33 +1,67 @@
 <script>
-	import { db } from '$lib/external/firebase.js';
+	import { db,storage } from '$lib/external/firebase.js';
 	import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+	import { ref, uploadBytes, uploadBytesResumable,getDownloadURL } from "firebase/storage";
 	import { goto } from '$app/navigation';
 	import { slugify } from '$lib/script/lib.js';
 	import Editor from '@tinymce/tinymce-svelte';
 
 	const host = import.meta.env.VITE_appUrl;
 
-	let inputTitle;
-	let inputBody;
+	let inputTitle = " ";
+	let preview = false;
+	let uploadImgProgress = '0%';
+	let inputBody = " ";
 	let inputImage;
-	let button = 'bg-green-500 text-white hover:bg-green-400';
-	let disabled = '';
+	let imageUrl
+	let button = 'bg-slate-300 text-slate-500';
+	let disabled = 'disabled';
 	let date = new Date();
+	let imageRef
 
-	const testFun = async () => {
-		console.log(inputImage);
-		console.log('test');
+	const uploadImg = async () => {
+		setTimeout(() => {
+			const image = inputImage[0];
+			const imageExtension = image.name.split('.').pop();
+			const imageName = `${date.getDate()}-${date.getMonth().toString()}-${date.getFullYear().toString()}-berita-${Math.floor((Math.random() * 10000) + 1)}.${imageExtension}`;
+			console.log(imageName);
+
+			imageRef = ref(storage,"images/"+imageName)
+
+			const uploadTask = uploadBytesResumable(imageRef,image);
+			uploadTask.on('state_changed',
+			(snapshot)=>{
+				uploadImgProgress = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100)+"%";
+			},(error) => {
+				alert(error);
+			},()=>{
+				alert("image berhasil di upload");
+				preview = URL.createObjectURL(image);
+				button = 'bg-green-500 text-white hover:bg-green-400';
+				disabled = '';
+
+			});
+		}, 500);
+
 	};
 
 	const addBerita = async () => {
 		button = 'bg-slate-300 text-slate-500';
 		disabled = 'disabled';
+		await getDownloadURL(ref(imageRef))
+		.then((url) => {
+			imageUrl = url
+		})
+		.catch((error) => {
+			alert("error");
+		});
 
 		const beritaRef = collection(db, 'berita');
 		try {
 			const docRef = await addDoc(beritaRef, {
 				title: inputTitle,
 				slug: slugify(inputTitle),
+				image: imageUrl,
 				body: inputBody,
 				year: date.getFullYear(),
 				createdAt: serverTimestamp(),
@@ -67,14 +101,29 @@
 		</div>
 		<div class="flex flex-col font-semibold gap-1 z-0">
 			<label for="image">Image</label>
-			<input
-				on:input={testFun}
-				bind:files={inputImage}
-				class="bg-white px-4 py-2 rounded text-sm cursor-pointer"
-				type="file"
-				name="image"
-				id="image"
-			/>
+			{#if preview}
+				<div class="bg-white rounded p-2">
+					<img src="{preview}" alt="">
+				</div>
+				{:else}
+				<div class="bg-white rounded">
+					<div class="w-full h-1 bg-slate-300 mt-1">
+						<div style="width: {uploadImgProgress};" class="h-1 bg-sky-900 transition-transform duration-300"></div>
+					</div>
+					<input
+					on:input={uploadImg}
+					bind:files={inputImage}
+					class="px-4 py-2 rounded text-sm cursor-pointer"
+					type="file"
+					accept="image/*"
+					name="image"
+					id="image"
+				/>
+				</div>
+			{/if}
+			
+
+
 		</div>
 		<input
 			class="py-2 px-4 font-bold rounded block {button} cursor-pointer"

@@ -1,11 +1,12 @@
 <script>
 	import Newsheader from '$lib/img/newsheader.jpg';
-	import Newsimg from '$lib/img/16_9.png';
+	import {truncate,removeTags} from '$lib/script/lib.js';
 	import Sharemodal from '$lib/component/Sharemodal.svelte';
 	import { db } from '$lib/external/firebase.js';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { collection, getDocs, query, where } from 'firebase/firestore';
+
 	const slug = $page.params.slug;
 
 	let berita = {
@@ -25,6 +26,20 @@
 	});
 	const url = $page.url.href;
 </script>
+<svelte:head>
+	<title>{berita.title}</title>
+	<meta name="description" content="{ truncate(removeTags(berita.body),150)}">
+	<meta name="googlebot" content="notranslate" />
+	<meta property="og:title" content="{berita.title}" />
+	<meta property="og:type" content="news" />
+	<meta property="og:url" content="{url}" />
+	<meta property="og:image" content="{berita.image}" />
+	<meta name="twitter:title" content="{berita.title}">
+	<meta name="twitter:description" content="{ truncate(removeTags(berita.body),150)}">
+	<meta name="twitter:image" content=" {berita.image}">
+	<meta name="twitter:card" content="summary_large_image">
+
+</svelte:head>
 
 <div class="text-2xl">
 	<img
@@ -49,7 +64,7 @@
 </div>
 
 <main class="container mx-auto">
-	<img class="pt-8" src={Newsimg} alt="" />
+	<img class="p-8" src={berita.image} alt="" />
 	<div class="my-8 flex flex-col gap-2 indent-4 px-2">{@html berita.body}</div>
 </main>
 {#if !render}

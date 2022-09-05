@@ -55,7 +55,7 @@
 								<a href="{host}/berita/{b.slug}">
 									<img
 										class="transition-transform object-cover hover:scale-150"
-										src={img16_9}
+										src={b.image}
 										alt=""
 									/>
 								</a>
@@ -71,7 +71,7 @@
 								<a href="{host}/berita/{b.slug}">
 									<img
 										class="h-28 w-28 object-cover object-center transition-transform hover:scale-150"
-										src={img16_9}
+										src={b.image}
 										alt=""
 									/>
 								</a>
