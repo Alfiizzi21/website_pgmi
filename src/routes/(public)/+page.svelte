@@ -29,6 +29,7 @@
 		getBerita();
 	});
 </script>
+
 <svelte:head>
 	<title>PGMI UIN Jambi</title>
 </svelte:head>

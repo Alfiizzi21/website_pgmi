@@ -3,7 +3,7 @@
 	import { updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 	import { goto } from '$app/navigation';
 	import Editor from '@tinymce/tinymce-svelte';
-	import { deleteObject, ref,uploadBytesResumable,getDownloadURL } from 'firebase/storage';
+	import { deleteObject, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 	export let data;
 
@@ -15,13 +15,12 @@
 	let inputTitle = berita.title;
 	let oldImageName = berita.imageName;
 	let inputImage;
-	let uploadImgProgress = 0
+	let uploadImgProgress = 0;
 	let imageUrl = berita.imageUrl;
 	let newImageName = berita.imageName;
 	let editImageMode = false;
 	let date = new Date();
 	let newImageRef = ref(storage, 'images/' + berita.imageName);
-
 
 	console.log(inputImage);
 	let button = 'bg-green-500 text-white hover:bg-green-400';
@@ -65,7 +64,7 @@
 			})
 			.catch((error) => {
 				alert('error');
-		});
+			});
 
 		try {
 			const beritaRef = doc(db, 'berita', id);
@@ -73,11 +72,11 @@
 				title: inputTitle,
 				body: inputBody,
 				imageUrl,
-				imageName:newImageName,
+				imageName: newImageName,
 				updateAt: serverTimestamp()
 			});
 			alert('berita berhasil di update');
-			
+
 			const oldImageRef = ref(storage, 'images/' + oldImageName);
 			deleteObject(oldImageRef).catch((e) => alert(e));
 			goto('/dashboard/berita');

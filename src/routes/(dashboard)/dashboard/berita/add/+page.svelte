@@ -59,7 +59,7 @@
 			})
 			.catch((error) => {
 				alert('error');
-		});
+			});
 
 		const beritaRef = collection(db, 'berita');
 		try {

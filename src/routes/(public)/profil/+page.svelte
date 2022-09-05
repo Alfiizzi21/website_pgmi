@@ -1,6 +1,7 @@
 <script>
 	import Container from '$lib/component/Container.svelte';
 </script>
+
 <svelte:head>
 	<title>Profil PGMI UIN Jambi</title>
 </svelte:head>

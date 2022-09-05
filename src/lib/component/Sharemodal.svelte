@@ -1,10 +1,5 @@
 <script>
-	import {
-		Email,
-		WhatsApp,
-		Facebook,
-		Twitter
-	} from 'svelte-share-buttons-component';
+	import { Email, WhatsApp, Facebook, Twitter } from 'svelte-share-buttons-component';
 
 	export let url = import.meta.env.VITE_appUrl;
 	export let title = '';
