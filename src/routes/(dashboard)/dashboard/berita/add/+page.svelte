@@ -79,11 +79,10 @@
 
 <section class="dashboard-section">
 	<div class="py-2 font-semibold text-lg uppercase">buat berita</div>
-
 	<form class="flex flex-col gap-4" method="post" on:submit|preventDefault={addBerita}>
 		<div class="flex flex-col font-semibold gap-1">
 			<label for="title">Title</label>
-			<input
+			<input required
 				bind:value={inputTitle}
 				type="text"
 				class="py-1 px-4 text-sm rounded"
@@ -107,18 +106,19 @@
 				</div>
 				{:else}
 				<div class="bg-white rounded">
-					<div class="w-full h-1 bg-slate-300 mt-1">
+					<div class="w-full h-1 bg-slate-300 mt-1 mb-2">
 						<div style="width: {uploadImgProgress};" class="h-1 bg-sky-900 transition-transform duration-300"></div>
 					</div>
 					<input
 					on:input={uploadImg}
 					bind:files={inputImage}
-					class="px-4 py-2 rounded text-sm cursor-pointer"
+					class="px-4 py-1 rounded text-sm cursor-pointer"
 					type="file"
 					accept="image/*"
 					name="image"
 					id="image"
 				/>
+				<div class="text-xs px-2 mb-1 font-bold">Sangat disarankan mengunakan foto dengan aspect ratio 16:9 !</div>
 				</div>
 			{/if}
 			
