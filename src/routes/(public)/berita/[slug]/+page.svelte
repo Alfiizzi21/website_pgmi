@@ -1,32 +1,14 @@
 <script>
 	import Newsheader from '$lib/img/newsheader.jpg';
-	import {truncate,removeTags} from '$lib/script/lib.js';
 	import Sharemodal from '$lib/component/Sharemodal.svelte';
-	import { db } from '$lib/external/firebase.js';
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import { collection, getDocs, query, where } from 'firebase/firestore';
+	import { page } from '$app/stores';
+	/** @type {import('./$types').PageData} */  
+	export let data;
 
-	const slug = $page.params.slug;
+	let berita = data.berita
+	let meta = data.meta
 
-	let berita = {
-		title: 'loading',
-		body: '<p>loading</p>'
-	};
-	let meta = []
-	let render = false;
-
-	onMount(async () => {
-		const beritaRef = collection(db, 'berita');
-		const q = query(beritaRef, where('slug', '==', slug));
-		const beritaSnapshot = await getDocs(q);
-		beritaSnapshot.forEach((e) => {
-			berita = e.data();
-			meta = e.data()
-			meta.desc = truncate(removeTags(berita.body),150)
-			render = true;
-		});
-	});
 	const url = $page.url.href;
 </script>
 <svelte:head>
@@ -42,7 +24,7 @@
 	<meta name="twitter:image" content=" {meta.image}">
 	<meta name="twitter:card" content="summary_large_image">
 </svelte:head>
-
+  
 
 <div class="text-2xl">
 	<img
@@ -65,18 +47,10 @@
 		</div>
 	</Sharemodal>
 </div>
-
 <main class="container mx-auto">
 	<img class="p-8" src={berita.image} alt="" />
 	<div class="my-8 flex flex-col gap-2 indent-4 px-2">{@html berita.body}</div>
 </main>
-{#if !render}
-	<div class="right-0 left-0 top-0 bottom-0 bg-black fixed bg-opacity-25">
-		<div class="w-40 h-20 mt-28 bg-white rounded mx-auto flex justify-center items-center">
-			<div class=" border-4 m border-t-sky-500 w-10 h-10 rounded-full animate-spin" />
-		</div>
-	</div>
-{/if}
 
 <style>
 	#header {
