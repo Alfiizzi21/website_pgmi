@@ -76,7 +76,9 @@
 		</div>
 	{:then berita}
 		{#if berita.length === 0}
-			<div class="w-full text-center my-4 font-semibold">Tidak Ada Berita Di Tahun {pilihanTahun}</div>
+			<div class="w-full text-center my-4 font-semibold">
+				Tidak Ada Berita Di Tahun {pilihanTahun}
+			</div>
 		{:else}
 			<section class="my-8 grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 				{#each berita as b}

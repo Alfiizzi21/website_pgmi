@@ -50,6 +50,9 @@
 				<li>
 					<NavButton link="berita" icon="newspaper" text="berita" />
 				</li>
+				<li>
+					<NavButton link="pengumuman" icon="campaign" text="Pengumuman" />
+				</li>
 			</ul>
 		</nav>
 	</aside>

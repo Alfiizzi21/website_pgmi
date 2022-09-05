@@ -1,9 +1,7 @@
 <script>
-	import img16_9 from '$lib/img/16_9.png';
 	import { onMount } from 'svelte';
 	import { db } from '$lib/external/firebase.js';
 	import { collection, getDocs, doc, deleteDoc, query, where, orderBy } from 'firebase/firestore';
-	import Loading from '$lib/component/Loading.svelte';
 	import { truncate } from '$lib/script/lib.js';
 
 	let berita = [];
@@ -53,7 +51,7 @@
 				<tr>
 					<th scope="col" class="py-3 px-6 text-center"> Title </th>
 					<th scope="col" class="md:w-52 text-center"> Image </th>
-					<th class="py-3 px-6"> Body </th>
+					<th class="py-3 px-6 text-center"> Body </th>
 					<th scope="col" class="py-3 px-6 text-center"> aksi </th>
 				</tr>
 			</thead>
@@ -69,7 +67,7 @@
 						<td class="py-4 px-6">
 							{@html truncate(b.body, 100)}
 						</td>
-						<td class="">
+						<td class="flex flex-col items-center">
 							<div on:click={(e) => deleteBerita(b.id)} class="cursor-pointer hover:text-red-500">
 								<span class="material-icons"> delete </span>
 							</div>
