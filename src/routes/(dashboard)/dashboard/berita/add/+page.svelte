@@ -1,59 +1,64 @@
 <script>
-	import { db,storage } from '$lib/external/firebase.js';
+	import { db, storage } from '$lib/external/firebase.js';
 	import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-	import { ref, uploadBytes, uploadBytesResumable,getDownloadURL } from "firebase/storage";
+	import { ref, uploadBytes, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 	import { goto } from '$app/navigation';
 	import { slugify } from '$lib/script/lib.js';
 	import Editor from '@tinymce/tinymce-svelte';
 
 	const host = import.meta.env.VITE_appUrl;
 
-	let inputTitle = " ";
+	let inputTitle = ' ';
 	let preview = false;
 	let uploadImgProgress = '0%';
-	let inputBody = " ";
+	let inputBody = ' ';
 	let inputImage;
-	let imageUrl
+	let imageName;
+	let imageUrl;
 	let button = 'bg-slate-300 text-slate-500';
 	let disabled = 'disabled';
 	let date = new Date();
-	let imageRef
+	let imageRef;
 
 	const uploadImg = async () => {
 		setTimeout(() => {
 			const image = inputImage[0];
 			const imageExtension = image.name.split('.').pop();
-			const imageName = `${date.getDate()}-${date.getMonth().toString()}-${date.getFullYear().toString()}-berita-${Math.floor((Math.random() * 10000) + 1)}.${imageExtension}`;
+			imageName = `${date.getDate()}-${date.getMonth().toString()}-${date
+				.getFullYear()
+				.toString()}-berita-${Math.floor(Math.random() * 10000 + 1)}.${imageExtension}`;
 			console.log(imageName);
 
-			imageRef = ref(storage,"images/"+imageName)
+			imageRef = ref(storage, 'images/' + imageName);
 
-			const uploadTask = uploadBytesResumable(imageRef,image);
-			uploadTask.on('state_changed',
-			(snapshot)=>{
-				uploadImgProgress = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100)+"%";
-			},(error) => {
-				alert(error);
-			},()=>{
-				alert("image berhasil di upload");
-				preview = URL.createObjectURL(image);
-				button = 'bg-green-500 text-white hover:bg-green-400';
-				disabled = '';
-
-			});
+			const uploadTask = uploadBytesResumable(imageRef, image);
+			uploadTask.on(
+				'state_changed',
+				(snapshot) => {
+					uploadImgProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100 + '%';
+				},
+				(error) => {
+					alert(error);
+				},
+				() => {
+					alert('image berhasil di upload');
+					preview = URL.createObjectURL(image);
+					button = 'bg-green-500 text-white hover:bg-green-400';
+					disabled = '';
+				}
+			);
 		}, 500);
-
 	};
 
 	const addBerita = async () => {
 		button = 'bg-slate-300 text-slate-500';
 		disabled = 'disabled';
 		await getDownloadURL(ref(imageRef))
-		.then((url) => {
-			imageUrl = url
-		})
-		.catch((error) => {
-			alert("error");
+			.then((url) => {
+				imageUrl = url;
+			})
+			.catch((error) => {
+				alert('error');
 		});
 
 		const beritaRef = collection(db, 'berita');
@@ -61,7 +66,8 @@
 			const docRef = await addDoc(beritaRef, {
 				title: inputTitle,
 				slug: slugify(inputTitle),
-				image: imageUrl,
+				imageUrl: imageUrl,
+				imageName: imageName,
 				body: inputBody,
 				year: date.getFullYear(),
 				createdAt: serverTimestamp(),
@@ -82,7 +88,8 @@
 	<form class="flex flex-col gap-4" method="post" on:submit|preventDefault={addBerita}>
 		<div class="flex flex-col font-semibold gap-1">
 			<label for="title">Title</label>
-			<input required
+			<input
+				required
 				bind:value={inputTitle}
 				type="text"
 				class="py-1 px-4 text-sm rounded"
@@ -102,28 +109,30 @@
 			<label for="image">Image</label>
 			{#if preview}
 				<div class="bg-white rounded p-2">
-					<img src="{preview}" alt="">
+					<img src={preview} alt="" />
 				</div>
-				{:else}
+			{:else}
 				<div class="bg-white rounded">
 					<div class="w-full h-1 bg-slate-300 mt-1 mb-2">
-						<div style="width: {uploadImgProgress};" class="h-1 bg-sky-900 transition-transform duration-300"></div>
+						<div
+							style="width: {uploadImgProgress};"
+							class="h-1 bg-sky-900 transition-transform duration-300"
+						/>
 					</div>
 					<input
-					on:input={uploadImg}
-					bind:files={inputImage}
-					class="px-4 py-1 rounded text-sm cursor-pointer"
-					type="file"
-					accept="image/*"
-					name="image"
-					id="image"
-				/>
-				<div class="text-xs px-2 mb-1 font-bold">Sangat disarankan mengunakan foto dengan aspect ratio 16:9 !</div>
+						on:input={uploadImg}
+						bind:files={inputImage}
+						class="px-4 py-1 rounded text-sm cursor-pointer"
+						type="file"
+						accept="image/*"
+						name="image"
+						id="image"
+					/>
+					<div class="text-xs px-2 mb-1 font-bold">
+						Sangat disarankan mengunakan foto dengan aspect ratio 16:9 !
+					</div>
 				</div>
 			{/if}
-			
-
-
 		</div>
 		<input
 			class="py-2 px-4 font-bold rounded block {button} cursor-pointer"

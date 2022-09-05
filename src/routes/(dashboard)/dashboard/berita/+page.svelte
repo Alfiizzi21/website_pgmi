@@ -64,7 +64,7 @@
 							{b.title}
 						</th>
 						<td class="py-4 px-6 text-center">
-							<img src={b.image} alt="news" />
+							<img src={b.imageUrl} alt="news" />
 						</td>
 						<td class="py-4 px-6">
 							{@html truncate(b.body, 100)}
