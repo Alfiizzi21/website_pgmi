@@ -29,6 +29,9 @@
 		getBerita();
 	});
 </script>
+<svelte:head>
+	<title>PGMI UIN Jambi</title>
+</svelte:head>
 
 <section id="hero">
 	<div class="absolute aspect-video w-full bg-black opacity-20" />

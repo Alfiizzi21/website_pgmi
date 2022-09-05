@@ -1,11 +1,9 @@
 <script>
 	import {
 		Email,
-		Telegram,
 		WhatsApp,
 		Facebook,
-		Twitter,
-		Line
+		Twitter
 	} from 'svelte-share-buttons-component';
 
 	export let url = import.meta.env.VITE_appUrl;
@@ -43,11 +41,9 @@
 			</div>
 			<div class="mt-4 flex justify-start gap-2">
 				<Email subject={title} body="{desc} {url}" />
-				<Telegram class="share-button" text={title} {url} />
 				<WhatsApp class="share-button" text="{title} {url}" />
 				<Facebook class="share-button" quote={title} {url} />
 				<Twitter class="share-button" text={title} {url} via="" related="" />
-				<Line class="share-button" {url} />
 			</div>
 		</div>
 	</div>

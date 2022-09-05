@@ -1,6 +1,9 @@
 <script>
 	import Container from '$lib/component/Container.svelte';
 </script>
+<svelte:head>
+	<title>Profil PGMI UIN Jambi</title>
+</svelte:head>
 
 <Container>
 	<section class="col-span-4 lg:col-span-2">

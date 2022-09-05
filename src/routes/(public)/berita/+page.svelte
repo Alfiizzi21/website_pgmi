@@ -1,11 +1,10 @@
 <script>
 	import Newsheader from '$lib/img/newsheader.jpg';
-	import Newsimg from '$lib/img/16_9.png';
 	import { page } from '$app/stores';
 	import Sharemodal from '$lib/component/Sharemodal.svelte';
 	import { db } from '$lib/external/firebase.js';
 	import { timeConverter, timeConverterToHour } from '$lib/script/lib.js';
-	import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
+	import { collection, getDocs, query, where } from 'firebase/firestore';
 	import { onMount } from 'svelte';
 	const host = import.meta.env.VITE_appUrl;
 
@@ -63,6 +62,9 @@
 <div class="p-2 text-sm text-slate-500 sm:p-8">
 	<a href={host}>Beranda</a> > <a href="{host}/berita">Semua Berita</a>
 </div>
+<svelte:head>
+	<title>Berita PGMI UIN Jambi</title>
+</svelte:head>
 <main class="container mx-auto">
 	<div class="">
 		<select
@@ -109,69 +111,7 @@
 				</a>
 			</div>
 		{/each}
-
-		<!-- <div class="card mx-4 sm:mx-0">
-			<img src={Newsimg} alt="" />
-			<div class="flex justify-between pt-2">
-				<div class="flex text-sm font-semibold text-slate-700">
-					<span class="material-icons text-base"> calendar_month </span>
-					17/8/2022
-					<span class="material-icons ml-1 text-base"> schedule </span>
-					17:30
-				</div>
-				<Sharemodal url="tes">
-					<button class="">
-						<span class="material-icons"> share </span>
-					</button>
-				</Sharemodal>
-			</div>
-
-			<h2 class="text-lg font-semibold">
-				Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic, eveniet.
-			</h2>
-		</div>
-		<div class="card mx-4 sm:mx-0">
-			<img src={Newsimg} alt="" />
-			<div class="flex justify-between pt-2">
-				<div class="flex text-sm font-semibold text-slate-700">
-					<span class="material-icons text-base"> calendar_month </span>
-					17/8/2022
-					<span class="material-icons ml-1 text-base"> schedule </span>
-					17:30
-				</div>
-				<Sharemodal url="tes">
-					<button class="">
-						<span class="material-icons"> share </span>
-					</button>
-				</Sharemodal>
-			</div>
-
-			<h2 class="text-lg font-semibold">
-				Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic, eveniet.
-			</h2>
-		</div> -->
 	</section>
-	<!-- <embed src= "" width= "500" height= "375"> -->
-	<!-- <div class="my-8 ">
-
-		<nav aria-label="Page navigation example" class="mx-auto">
-			<ul class="inline-flex -space-x-px">
-			  <li>
-				<a href="#" class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ">Previous</a>
-			  </li>
-			  <li>
-				<a href="#" class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ">1</a>
-			  </li>
-			  <li>
-				<a href="#" aria-current="page" class="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700">2</a>
-			  </li>
-			  <li>
-				<a href="#" class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ">Next</a>
-			  </li>
-			</ul>
-		  </nav>
-		  
-	</div> -->
 </main>
 
 <style>

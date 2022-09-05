@@ -22,7 +22,9 @@
 			});
 	};
 </script>
-
+<svelte:head>
+	<title>Login</title>
+</svelte:head>
 <Container>
 	<div class="bg-sky-100 sm:w-96 mx-auto sm:mt-4 md:mt-20 mb-52 rounded p-4 shadow">
 		<h1 class="text-center text-2xl font-semibold text-sky-900 uppercase m-2">login</h1>
