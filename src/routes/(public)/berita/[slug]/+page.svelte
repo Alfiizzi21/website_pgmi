@@ -13,6 +13,7 @@
 		title: 'loading',
 		body: '<p>loading</p>'
 	};
+	let meta = []
 	let render = false;
 
 	onMount(async () => {
@@ -21,25 +22,27 @@
 		const beritaSnapshot = await getDocs(q);
 		beritaSnapshot.forEach((e) => {
 			berita = e.data();
+			meta = e.data()
+			meta.desc = truncate(removeTags(berita.body),150)
 			render = true;
 		});
 	});
 	const url = $page.url.href;
 </script>
 <svelte:head>
-	<title>{berita.title}</title>
-	<meta name="description" content="{ truncate(removeTags(berita.body),150)}">
+	<title>{meta.title}</title>
+	<meta name="description" content="{ meta.desc }">
 	<meta name="googlebot" content="notranslate" />
-	<meta property="og:title" content="{berita.title}" />
+	<meta property="og:title" content="{meta.title}" />
 	<meta property="og:type" content="news" />
 	<meta property="og:url" content="{url}" />
-	<meta property="og:image" content="{berita.image}" />
-	<meta name="twitter:title" content="{berita.title}">
-	<meta name="twitter:description" content="{ truncate(removeTags(berita.body),150)}">
-	<meta name="twitter:image" content=" {berita.image}">
+	<meta property="og:image" content="{meta.image}" />
+	<meta name="twitter:title" content="{meta.title}">
+	<meta name="twitter:description" content="{meta.desc}">
+	<meta name="twitter:image" content=" {meta.image}">
 	<meta name="twitter:card" content="summary_large_image">
-
 </svelte:head>
+
 
 <div class="text-2xl">
 	<img
