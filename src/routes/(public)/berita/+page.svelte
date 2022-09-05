@@ -8,13 +8,11 @@
 	import { onMount } from 'svelte';
 	const host = import.meta.env.VITE_appUrl;
 
-	let berita = [];
-
+	const tanggal = new Date();
 	let pilihanTahun;
 
 	const getBeritaByYear = async (year) => {
 		year = parseInt(year);
-		console.log(year);
 		const beritaRef = collection(db, 'berita');
 		const q = query(beritaRef, where('year', '==', year));
 		let tempArr = [];
@@ -29,21 +27,14 @@
 			data.hour = hour;
 			tempArr = [...tempArr, data];
 		});
-		berita = tempArr;
+		return tempArr;
 	};
 	const selectYear = async () => {
 		setTimeout(() => {
-			getBeritaByYear(pilihanTahun);
-		}, 500);
+			PromiseBerita = getBeritaByYear(pilihanTahun);
+		}, 300);
 	};
-
-	let params = $page.url.searchParams;
-	console.log(params.get('year'));
-
-	onMount(async () => {
-		const tanggal = new Date();
-		getBeritaByYear(tanggal.getFullYear().toString());
-	});
+	let PromiseBerita = getBeritaByYear(tanggal.getFullYear().toString());
 </script>
 
 <div class="text-2xl">
@@ -79,39 +70,49 @@
 			<option value="2025">2025</option>
 		</select>
 	</div>
-	<section class="my-8 grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-		{#each berita as b}
-			<div class="card mx-4 sm:mx-0">
-				<figure class="overflow-hidden">
-					<a href="{host}/berita/{b.slug}">
-						<img
-							class="hover:scale-150 transition-transform duration-500 cursor-pointer"
-							src={b.imageUrl}
-							alt=""
-						/>
-					</a>
-				</figure>
-				<div class="flex justify-between pt-2">
-					<div class="flex text-sm font-semibold text-slate-700">
-						<span class="material-icons text-base"> calendar_month </span>
-						{b.date}
-						<span class="material-icons ml-1 text-base"> schedule </span>
-						{b.hour}
+	{#await PromiseBerita}
+		<div class="w-full flex justify-center my-4">
+			<div class="w-10 h-10 border-4 border-t-sky-900 animate-spin rounded-full" />
+		</div>
+	{:then berita}
+		{#if berita.length === 0}
+			<div class="w-full text-center my-4 font-semibold">Tidak Ada Berita Di Tahun {pilihanTahun}</div>
+		{:else}
+			<section class="my-8 grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+				{#each berita as b}
+					<div class="card mx-4 sm:mx-0">
+						<figure class="overflow-hidden">
+							<a href="{host}/berita/{b.slug}">
+								<img
+									class="hover:scale-150 transition-transform duration-500 cursor-pointer"
+									src={b.imageUrl}
+									alt=""
+								/>
+							</a>
+						</figure>
+						<div class="flex justify-between pt-2">
+							<div class="flex text-sm font-semibold text-slate-700">
+								<span class="material-icons text-base"> calendar_month </span>
+								{b.date}
+								<span class="material-icons ml-1 text-base"> schedule </span>
+								{b.hour}
+							</div>
+							<Sharemodal url="{host}/berita/{b.slug}">
+								<button class="">
+									<span class="material-icons"> share </span>
+								</button>
+							</Sharemodal>
+						</div>
+						<a href="{host}/berita/{b.slug}">
+							<h2 class="text-lg font-semibold hover:text-sky-900 cursor-pointer">
+								{b.title}
+							</h2>
+						</a>
 					</div>
-					<Sharemodal url="{host}/berita/{b.slug}">
-						<button class="">
-							<span class="material-icons"> share </span>
-						</button>
-					</Sharemodal>
-				</div>
-				<a href="{host}/berita/{b.slug}">
-					<h2 class="text-lg font-semibold hover:text-sky-900 cursor-pointer">
-						{b.title}
-					</h2>
-				</a>
-			</div>
-		{/each}
-	</section>
+				{/each}
+			</section>
+		{/if}
+	{/await}
 </main>
 
 <style>
