@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation';
 	import Editor from '@tinymce/tinymce-svelte';
 	export let data;
-	const id = data.id
+	const id = data.id;
 	const host = import.meta.env.VITE_appUrl;
 
 	let pengumuman = data.data.pengumuman;
@@ -12,13 +12,10 @@
 	let button = 'bg-green-500 text-white hover:bg-green-400';
 	let disabled = '';
 
-
-
 	const updatePengumuman = async () => {
-		
 		button = 'bg-slate-300 text-slate-500';
 		disabled = 'disabled';
-		const pengumumanRef = doc(db, 'pengumuman',id);
+		const pengumumanRef = doc(db, 'pengumuman', id);
 		try {
 			await updateDoc(pengumumanRef, {
 				pengumuman,
