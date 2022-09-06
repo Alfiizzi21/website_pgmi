@@ -1,11 +1,9 @@
 <script>
 	import Newsheader from '$lib/img/newsheader.jpg';
-	import { page } from '$app/stores';
 	import Sharemodal from '$lib/component/Sharemodal.svelte';
 	import { db } from '$lib/external/firebase.js';
-	import { timeConverter, timeConverterToHour } from '$lib/script/lib.js';
+	import { timeConverter, timeConverterToHour, removeTags, truncate } from '$lib/script/lib.js';
 	import { collection, getDocs, query, where } from 'firebase/firestore';
-	import { onMount } from 'svelte';
 	const host = import.meta.env.VITE_appUrl;
 
 	const tanggal = new Date();
@@ -37,17 +35,12 @@
 	let PromiseBerita = getBeritaByYear(tanggal.getFullYear().toString());
 </script>
 
-<div class="text-2xl">
-	<img
-		class="absolute -z-10 h-52  object-cover object-center sm:h-auto"
-		src={Newsheader}
-		alt="news header"
-	/>
-	<div
-		id="header"
-		class="flex h-52 w-full  items-end p-10  font-bold uppercase text-white sm:h-auto md:text-4xl"
-	>
-		berita terbaru
+<div class="md:mt-16">
+	<img class="aspect-[3/1] w-full object-cover" src={Newsheader} alt="news header" />
+	<div class="aspect-[3/1] w-full bg-black absolute top-16 bg-opacity-25 text-white flex items-end">
+		<div class="m-4 capitalize font-semibold text-2xl  sm:text-4xl lg:m-8 xl:text-14">
+			berita terbaru
+		</div>
 	</div>
 </div>
 <div class="p-2 text-sm text-slate-500 sm:p-8">
@@ -83,10 +76,10 @@
 			<section class="my-8 grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 				{#each berita as b}
 					<div class="card mx-4 sm:mx-0">
-						<figure class="overflow-hidden">
+						<figure class="aspect-video md:aspect-[3/2] overflow-hidden">
 							<a href="{host}/berita/{b.slug}">
 								<img
-									class="hover:scale-150 transition-transform duration-500 cursor-pointer"
+									class="object-cover w-full cursor-pointer transition-transform duration-500 hover:scale-150 "
 									src={b.imageUrl}
 									alt=""
 								/>
@@ -109,6 +102,9 @@
 							<h2 class="text-lg font-semibold hover:text-sky-900 cursor-pointer">
 								{b.title}
 							</h2>
+							<p>
+								{truncate(removeTags(b.body), 100)}
+							</p>
 						</a>
 					</div>
 				{/each}
@@ -116,10 +112,3 @@
 		{/if}
 	{/await}
 </main>
-
-<style>
-	#header {
-		aspect-ratio: 3/1;
-		background-color: rgba(0, 0, 0, 0.3);
-	}
-</style>

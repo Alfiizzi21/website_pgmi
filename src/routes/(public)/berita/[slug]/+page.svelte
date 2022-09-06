@@ -27,37 +27,25 @@
 </svelte:head>
 
 <div class="text-2xl">
-	<img
-		class="absolute -z-10 h-52  object-cover object-center sm:h-auto"
-		src={Newsheader}
-		alt="news header"
-	/>
-	<div
-		id="header"
-		class="flex h-52 w-full  items-end p-10  font-bold uppercase text-white sm:h-auto md:text-4xl"
-	>
-		{berita.title}
-	</div>
-
-	<Sharemodal {url}>
+	<div class="md:mt-16">
+		<img class="aspect-[3/1] w-full object-cover" src={Newsheader} alt="news header" />
 		<div
-			class="float-right mr-4 flex h-12 w-12 -translate-y-16 cursor-pointer items-center justify-center rounded-full bg-white hover:bg-sky-100"
+			class="aspect-[3/1] w-full bg-black absolute top-16 bg-opacity-25 text-white flex items-end justify-between"
 		>
-			<span class="material-icons text-sky-900"> share </span>
+			<div class="m-4 capitalize font-semibold text-2xl  sm:text-4xl lg:m-8 xl:text-14">
+				{berita.title}
+			</div>
+			<Sharemodal {url}>
+				<div
+					class="float-right mr-4 flex h-12 w-12 -translate-y-4 lg:-translate-y-8 cursor-pointer items-center justify-center rounded-full bg-white hover:bg-sky-100"
+				>
+					<span class="material-icons text-sky-900"> share </span>
+				</div>
+			</Sharemodal>
 		</div>
-	</Sharemodal>
+	</div>
 </div>
-<main class="container mx-auto">
-	<img class="p-8" src={berita.imageUrl} alt="" />
-	<div class="my-8 flex flex-col gap-2 indent-4 px-2">{@html berita.body}</div>
+<main class=" sm:max-w-xl md:max-w-2xl lg:max-w-4xl mx-auto my-6">
+	<img class="object-cover aspect-[3/2] mx-2 sm:mx-auto" src={berita.imageUrl} alt="image_berita" />
+	<div class="flex mt-4 flex-col gap-2 indent-4 px-2">{@html berita.body}</div>
 </main>
-
-<style>
-	#header {
-		aspect-ratio: 3/1;
-		background-color: rgba(0, 0, 0, 0.3);
-	}
-	p {
-		text-indent: 1rem;
-	}
-</style>
