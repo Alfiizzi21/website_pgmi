@@ -55,7 +55,7 @@
 
 <section id="hero">
 	<div class="absolute aspect-video w-full bg-black opacity-20" />
-	<img src="hero.webp" alt="" />
+	<img width="1600" height="900" src="hero.webp" alt="" />
 </section>
 <Container>
 	<div class="grid grid-cols-4 pb-8">
