@@ -74,7 +74,7 @@
 							>
 								<span class="material-icons"> delete </span>
 							</div>
-							<a href="{host}/dashboard/berita/edit/{p.id}" class="hover:text-blue-500">
+							<a href="{host}/dashboard/pengumuman/edit/{p.id}" class="hover:text-blue-500">
 								<span class="material-icons"> edit </span>
 							</a>
 						</td>
