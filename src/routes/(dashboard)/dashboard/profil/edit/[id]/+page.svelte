@@ -24,6 +24,7 @@
 			const profilRef = doc(db, 'profil', id);
 			await setDoc(profilRef, {
 				title,
+				secRef: slugify(title),
 				body,
 				updateAt: serverTimestamp()
 			});

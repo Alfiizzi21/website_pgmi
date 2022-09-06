@@ -15,12 +15,15 @@
 			const profilLinkRef = doc(db, 'profilLink', title);
 			await setDoc(profilLinkRef, {
 				title,
-				secRef: slugify(title)
+				secRef: slugify(title),
+				createdAt: serverTimestamp()
 			});
 			const profilRef = doc(db, 'profil', title);
 			await setDoc(profilRef, {
 				title,
+				secRef: slugify(title),
 				body,
+				createdAt: serverTimestamp(),
 				updateAt: serverTimestamp()
 			});
 			goto(`${host}/dashboard/profil`);

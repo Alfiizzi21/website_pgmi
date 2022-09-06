@@ -1,12 +1,17 @@
 <script>
 	import logo from './pgmi.png';
 	import { page } from '$app/stores';
+	import { db } from '$lib/external/firebase.js';
+	import { onMount } from 'svelte';
+	import { collection, getDocs } from 'firebase/firestore';
+	import { each } from 'svelte/internal';
 
 	let y;
 	let headerclass;
 	let nav_toggle = true;
 	let navclass;
-	let host = $page.url.origin;
+	let linkProfil = [];
+	const host = import.meta.env.VITE_appUrl;
 
 	$: if (nav_toggle) {
 		navclass = '-translate-y-[1000px]';
@@ -20,11 +25,29 @@
 		headerclass = 'md:bg-transparent';
 	}
 
-	function closeNav() {
+	const closeNav = () => {
 		if (!nav_toggle) {
 			nav_toggle = true;
 		}
-	}
+	};
+
+	const getLinkProfil = async () => {
+		try {
+			let tempArr = [];
+			const profilLink = collection(db, 'profilLink');
+			const linkProfilSnapshot = await getDocs(profilLink);
+			linkProfilSnapshot.forEach((doc) => {
+				tempArr = [...tempArr, doc.data()];
+			});
+			linkProfil = tempArr;
+		} catch (err) {
+			alert(err);
+		}
+	};
+
+	onMount(() => {
+		getLinkProfil();
+	});
 </script>
 
 <header
@@ -65,20 +88,15 @@
 					Profil <span class="material-icons">expand_more</span>
 				</div>
 				<ul class="md:absolute md:top-12 md:hidden md:bg-sky-700 md:group-hover:block">
-					<a href="{host}/profil/#visi-misi">
-						<li
-							class=" py-2 px-6 hover:text-sky-600 md:p-4 md:hover:bg-sky-900 md:hover:text-white"
-						>
-							Visi Dan Misi
-						</li>
-					</a>
-					<a href="{host}/profil/#struktur-organisasi">
-						<li
-							class=" py-2 px-6 hover:text-sky-600 md:p-4 md:hover:bg-sky-900 md:hover:text-white"
-						>
-							Struktur Organisasi
-						</li>
-					</a>
+					{#each linkProfil as lp}
+						<a href="{host}/profil/#{lp.secRef}">
+							<li
+								class=" py-2 px-6 hover:text-sky-600 md:p-4 capitalize md:hover:bg-sky-900 md:hover:text-white"
+							>
+								{lp.title}
+							</li>
+						</a>
+					{/each}
 				</ul>
 			</li>
 			<a href="{host}/berita">
