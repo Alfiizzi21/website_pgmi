@@ -1,11 +1,9 @@
 <script>
-	import img16_9 from '$lib/img/16_9.png';
 	import Container from '$lib/component/Container.svelte';
 	import { onMount } from 'svelte';
 	import { db } from '$lib/external/firebase.js';
 	import { timeConverter, timeConverterToDay, truncate, removeTags } from '$lib/script/lib.js';
 	import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
-	import { each } from 'svelte/internal';
 
 	const host = import.meta.env.VITE_appUrl;
 	let berita = [];
