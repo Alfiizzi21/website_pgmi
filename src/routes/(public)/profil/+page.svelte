@@ -21,16 +21,3 @@
 		</section>
 	{/each}
 </Container>
-
-<style>
-	h2 {
-		font-size: 1.25rem /* 20px */;
-		line-height: 1.75rem /* 28px */;
-		font-weight: 600;
-		--tw-text-opacity: 1;
-		color: rgb(3 105 161 / var(--tw-text-opacity));
-	}
-	p {
-		margin: 1rem 0;
-	}
-</style>
