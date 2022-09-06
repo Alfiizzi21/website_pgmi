@@ -60,7 +60,7 @@
 		<source media="(max-width: 768px)" srcset="hero-768w.jpg" />
 		<source media="(max-width: 1024px)" srcset="hero-1024w.jpg" />
 		<source media="(min-width: 1280px)" srcset="hero-1280w.jpg" />
-		<img class="w-full" src="hero.webp" alt="Chris standing up holding his daughter Elva" />
+		<img width="1920" height="1080" class="w-full" src="hero.webp" alt="hero" />
 	</picture>
 </section>
 <Container>
