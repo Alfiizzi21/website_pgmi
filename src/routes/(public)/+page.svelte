@@ -54,12 +54,14 @@
 </svelte:head>
 
 <section id="hero">
-	<div class="absolute xl:aspect-video w-full bg-black opacity-20" />
-	<img
-		srcset="hero-640w.jpg 640w, hero-768w.jpg 768w, hero-1024w.jpg 1024w,hero-1280w.jpg 1280w"
-		src="hero.webp"
-		alt=""
-	/>
+	<div class="absolute aspect-video w-full bg-black opacity-20" />
+	<picture class="w-full">
+		<source media="(max-width: 640px)" srcset="hero-640w.jpg" />
+		<source media="(max-width: 768px)" srcset="hero-768w.jpg" />
+		<source media="(max-width: 1024px)" srcset="hero-1024w.jpg" />
+		<source media="(min-width: 1280px)" srcset="hero-1280w.jpg" />
+		<img class="w-full" src="hero.webp" alt="Chris standing up holding his daughter Elva" />
+	</picture>
 </section>
 <Container>
 	<div class="grid grid-cols-4 pb-8">
