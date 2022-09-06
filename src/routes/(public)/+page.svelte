@@ -1,10 +1,52 @@
 <script>
 	import Container from '$lib/component/Container.svelte';
-	import { truncate, removeTags } from '$lib/script/lib.js';
+	import { db } from '$lib/external/firebase.js';
+	import { timeConverter, timeConverterToDay, truncate, removeTags } from '$lib/script/lib.js';
+	import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
+	import { onMount } from 'svelte';
 	const host = import.meta.env.VITE_appUrl;
-	export let data;
-	let berita = data.berita;
-	let pengumuman = data.pengumuman;
+
+	let berita = [];
+	let pengumuman = [];
+
+	const getBerita = async () => {
+		const beritaRef = collection(db, 'berita');
+		const q = query(beritaRef, orderBy('createdAt', 'desc'), limit(5));
+		let tempArr = [];
+
+		let beritaSnapshot = await getDocs(q);
+
+		beritaSnapshot.forEach((doc) => {
+			let data = doc.data();
+			let date = timeConverter(data.createdAt.seconds);
+			let day = timeConverterToDay(data.createdAt.seconds);
+			data.tanggal = date;
+			data.hari = day;
+			tempArr = [...tempArr, data];
+		});
+		return tempArr;
+	};
+	const getPengumuman = async () => {
+		const pengumumanRef = collection(db, 'pengumuman');
+		const q = query(pengumumanRef, orderBy('createdAt', 'desc'), limit(4));
+		let tempArr = [];
+
+		let pengumumanSnapshot = await getDocs(q);
+
+		pengumumanSnapshot.forEach((doc) => {
+			let data = doc.data();
+			let date = timeConverter(data.createdAt.seconds);
+			let day = timeConverterToDay(data.createdAt.seconds);
+			data.tanggal = date;
+			data.hari = day;
+			tempArr = [...tempArr, data];
+		});
+		return tempArr;
+	};
+	onMount(async () => {
+		berita = await getBerita();
+		pengumuman = await getPengumuman();
+	});
 </script>
 
 <svelte:head>
