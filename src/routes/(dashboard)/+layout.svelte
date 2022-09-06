@@ -48,6 +48,9 @@
 					<NavButton link="" />
 				</li>
 				<li>
+					<NavButton link="profil" icon="badge" text="Profil" />
+				</li>
+				<li>
 					<NavButton link="berita" icon="newspaper" text="berita" />
 				</li>
 				<li>
