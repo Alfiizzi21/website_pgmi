@@ -54,8 +54,12 @@
 </svelte:head>
 
 <section id="hero">
-	<div class="absolute aspect-video w-full bg-black opacity-20" />
-	<img width="1600" height="900" src="hero.webp" alt="" />
+	<div class="absolute xl:aspect-video w-full bg-black opacity-20" />
+	<img
+		srcset="hero-640w.jpg 640w, hero-768w.jpg 768w, hero-1024w.jpg 1024w,hero-1280w.jpg 1280w"
+		src="hero.webp"
+		alt=""
+	/>
 </section>
 <Container>
 	<div class="grid grid-cols-4 pb-8">
