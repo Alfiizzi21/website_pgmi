@@ -3,30 +3,52 @@
 	import Container from '$lib/component/Container.svelte';
 	import { onMount } from 'svelte';
 	import { db } from '$lib/external/firebase.js';
-	import { timeConverter } from '$lib/script/lib.js';
+	import { timeConverter, timeConverterToDay, truncate, removeTags } from '$lib/script/lib.js';
 	import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
+	import { each } from 'svelte/internal';
 
 	const host = import.meta.env.VITE_appUrl;
 	let berita = [];
+	let pengumuman = [];
 
 	const getBerita = async () => {
 		const beritaRef = collection(db, 'berita');
-		const q = query(beritaRef, orderBy('createdAt', 'desc'), limit(4));
+		const q = query(beritaRef, orderBy('createdAt', 'desc'), limit(5));
 		let tempArr = [];
 
 		let beritaSnapshot = await getDocs(q);
 
 		beritaSnapshot.forEach((doc) => {
-			let date = timeConverter(doc.data().createdAt.seconds);
 			let data = doc.data();
+			let date = timeConverter(data.createdAt.seconds);
+			let day = timeConverterToDay(data.createdAt.seconds);
 			data.tanggal = date;
+			data.hari = day;
 			tempArr = [...tempArr, data];
 		});
 		berita = tempArr;
 	};
+	const getPengumuman = async () => {
+		const pengumumanRef = collection(db, 'pengumuman');
+		const q = query(pengumumanRef, orderBy('createdAt', 'desc'), limit(4));
+		let tempArr = [];
+
+		let pengumumanSnapshot = await getDocs(q);
+
+		pengumumanSnapshot.forEach((doc) => {
+			let data = doc.data();
+			let date = timeConverter(data.createdAt.seconds);
+			let day = timeConverterToDay(data.createdAt.seconds);
+			data.tanggal = date;
+			data.hari = day;
+			tempArr = [...tempArr, data];
+		});
+		pengumuman = tempArr;
+	};
 
 	onMount(async () => {
 		getBerita();
+		await getPengumuman();
 	});
 </script>
 
@@ -64,9 +86,10 @@
 									/>
 								</a>
 							</figure>
-							<div class="font-semibold uppercase text-slate-400">{b.tanggal}</div>
+							<div class="font-semibold uppercase text-slate-400">{b.hari},{b.tanggal}</div>
 							<a href="{host}/berita/{b.slug}">
 								<h2 class="text-xl font-semibold uppercase hover:text-sky-900">{b.title}</h2>
+								<div class="indent-4">{truncate(removeTags(b.body), 150)}</div>
 							</a>
 						</div>
 					{:else}
@@ -90,48 +113,6 @@
 					{/if}
 				{/each}
 			</div>
-
-			<!-- {#each news as n, i}
-						<div>
-							{#if i == 0}
-								<div class="m-4">
-									<figure class="overflow-hidden aspect-video w-full">
-										<a href="#">
-											<img class="transition-transform object-cover hover:scale-150" src={n.image} alt="" />
-										</a>
-									</figure>
-									<div class="font-semibold uppercase text-slate-400">17 agustus 2022</div>
-									<a href="#">
-										<h2 class="text-xl font-semibold uppercase hover:text-sky-900">
-											lorem impum dulur
-										</h2>
-									</a>
-								</div>
-								{:else}
-								<div class="m-4 flex gap-2">
-									<div class="overflow-hidden">
-										<a href="#">
-											<img
-												class="h-28 w-28 object-cover object-center transition-transform hover:scale-150"
-												src={n.image}
-												alt=""
-											/>
-										</a>
-									</div>
-									<div class="w-3/4">
-										<div class="text-sm font-semibold uppercase text-slate-400">
-											17 agustus 2022
-										</div>
-										<a href="#">
-											<h2 class="text-lg font-semibold uppercase hover:text-sky-900">
-												lorem impum dulur
-											</h2>
-										</a>
-									</div>
-								</div>
-							{/if}
-						</div>
-						{/each} -->
 		</section>
 		<section class="col-span-4 lg:col-span-2">
 			<div class="section_title my-8 mx-2 ">
@@ -186,28 +167,19 @@
 			<div class="section_title my-8 mx-2 ">
 				<h1 class="text-center text-2xl font-bold text-sky-900">PENGUMUMAN</h1>
 			</div>
-			<div class="m-4">
-				<div class="flex text-base text-slate-500">
-					<div class="flex capitalize">
-						<span class="material-icons mr-2"> calendar_month </span>
-						kamis, 21 april 2020
+			{#each pengumuman as p}
+				<div class="m-4">
+					<div class="flex text-base text-slate-500">
+						<div class="flex capitalize">
+							<span class="material-icons mr-2"> calendar_month </span>
+							{p.hari}, {p.tanggal}
+						</div>
 					</div>
+					<h2 class="text-lg font-semibold capitalize">
+						{p.pengumuman}
+					</h2>
 				</div>
-				<h2 class="text-lg font-semibold capitalize">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, sed.
-				</h2>
-			</div>
-			<div class="m-4">
-				<div class="flex text-base text-slate-500">
-					<div class="flex capitalize">
-						<span class="material-icons mr-2"> calendar_month </span>
-						kamis, 21 april 2020
-					</div>
-				</div>
-				<h2 class="text-lg font-semibold capitalize">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, sed.
-				</h2>
-			</div>
+			{/each}
 		</section>
 	</div>
 </Container>
