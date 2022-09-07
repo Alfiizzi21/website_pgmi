@@ -1,1 +1,0 @@
-import{e as o}from"./index-56c348ce.js";import{x as e,d as r,c as n}from"./firebase-8ec4c989.js";async function i({params:a}){try{const t=e(r,"berita",a.id);return{data:(await n(t)).data(),id:a.id}}catch(t){throw console.log(t),o(404,t)}}const b=Object.freeze(Object.defineProperty({__proto__:null,load:i},Symbol.toStringTag,{value:"Module"}));export{b as _,i as l};
