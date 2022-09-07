@@ -1,0 +1,1 @@
+import{default as a}from"../components/pages/(public)/berita/_page.svelte-a05272ec.js";import"./index-2cc7f77f.js";import"./Sharemodal-3791ba0a.js";import"./firebase-8ec4c989.js";import"./index.esm2017-523da5de.js";import"./lib-8baa1bf8.js";export{a as component};

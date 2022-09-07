@@ -1,0 +1,1 @@
+import{default as e}from"../components/pages/(dashboard)/dashboard/berita/_page.svelte-819684c6.js";import"./index-2cc7f77f.js";import"./firebase-8ec4c989.js";import"./index.esm2017-523da5de.js";import"./lib-8baa1bf8.js";export{e as component};

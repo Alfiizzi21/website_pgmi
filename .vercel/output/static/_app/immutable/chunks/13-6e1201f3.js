@@ -1,0 +1,1 @@
+import{default as e}from"../components/pages/(dashboard)/dashboard/profil/_page.svelte-bf1ba985.js";import"./index-2cc7f77f.js";import"./firebase-8ec4c989.js";import"./index.esm2017-523da5de.js";export{e as component};

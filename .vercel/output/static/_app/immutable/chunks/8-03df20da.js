@@ -1,0 +1,1 @@
+import{default as n}from"../components/pages/(dashboard)/dashboard/berita/add/_page.svelte-3ccd561c.js";import"./index-2cc7f77f.js";import"./firebase-8ec4c989.js";import"./index.esm2017-523da5de.js";import"./navigation-75ff2ebc.js";import"./singletons-b88798ed.js";import"./lib-8baa1bf8.js";import"./Editor-52e1c4d7.js";export{n as component};

@@ -56,11 +56,11 @@
 <section id="hero">
 	<div class="absolute aspect-video w-full bg-black opacity-20" />
 	<picture class="w-full">
-		<source media="(max-width: 640px)" srcset="hero-640w.jpg" />
-		<source media="(max-width: 768px)" srcset="hero-768w.jpg" />
-		<source media="(max-width: 1024px)" srcset="hero-1024w.jpg" />
-		<source media="(min-width: 1280px)" srcset="hero-1280w.jpg" />
-		<img width="1920" height="1080" class="w-full" src="hero.webp" alt="hero" />
+		<source media="(max-width: 640px)" srcset="image/hero-640w.jpg" />
+		<source media="(max-width: 768px)" srcset="image/hero-768w.jpg" />
+		<source media="(max-width: 1024px)" srcset="image/hero-1024w.jpg" />
+		<source media="(min-width: 1280px)" srcset="image/hero-1280w.jpg" />
+		<img width="1920" height="1080" class="w-full" src="image/hero.webp" alt="hero" />
 	</picture>
 </section>
 <Container>
