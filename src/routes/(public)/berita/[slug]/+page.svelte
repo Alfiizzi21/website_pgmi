@@ -48,7 +48,7 @@
 <main class=" sm:max-w-xl md:max-w-2xl lg:max-w-4xl mx-auto my-6 ">
 	<img class="object-cover aspect-[3/2] sm:mx-auto" src={berita.imageUrl} alt="image_berita" />
 	<article class="mt-4 prose prose-p:indent-4 ">
-		<h2>{berita.title}</h2>
+		<h2 class="w-0 h-0 opacity-0">{berita.title}</h2>
 		{@html berita.body}
 	</article>
 </main>
