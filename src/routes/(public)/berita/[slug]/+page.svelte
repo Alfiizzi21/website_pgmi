@@ -1,9 +1,7 @@
 <script>
 	import Newsheader from '$lib/img/newsheader.jpg';
 	import Sharemodal from '$lib/component/Sharemodal.svelte';
-	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	/** @type {import('./$types').PageData} */
 	export let data;
 
 	let berita = data.berita;
