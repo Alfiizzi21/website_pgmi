@@ -32,10 +32,10 @@
 		<div
 			class="aspect-[3/1] w-full bg-black absolute top-16 bg-opacity-25 text-white flex items-end justify-between"
 		>
-			<div class="m-4 capitalize font-semibold text-2xl  sm:text-4xl lg:m-8 xl:text-14">
+			<h1 class="m-4 capitalize font-semibold text-2xl  sm:text-4xl lg:m-8 xl:text-14">
 				{berita.title}
-			</div>
-			<Sharemodal {url}>
+			</h1>
+			<Sharemodal {url} title={berita.title}>
 				<div
 					class="float-right mr-4 flex h-12 w-12 -translate-y-4 lg:-translate-y-8 cursor-pointer items-center justify-center rounded-full bg-white hover:bg-sky-100"
 				>
@@ -45,7 +45,10 @@
 		</div>
 	</div>
 </div>
-<main class=" sm:max-w-xl md:max-w-2xl lg:max-w-4xl mx-auto my-6">
-	<img class="object-cover aspect-[3/2] mx-2 sm:mx-auto" src={berita.imageUrl} alt="image_berita" />
-	<div class="flex mt-4 flex-col gap-2 indent-4 px-2">{@html berita.body}</div>
+<main class=" sm:max-w-xl md:max-w-2xl lg:max-w-4xl mx-auto my-6 ">
+	<img class="object-cover aspect-[3/2] sm:mx-auto" src={berita.imageUrl} alt="image_berita" />
+	<article class="mt-4 prose prose-p:indent-4 ">
+		<h2>{berita.title}</h2>
+		{@html berita.body}
+	</article>
 </main>
