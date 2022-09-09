@@ -8,7 +8,6 @@ export async function load({ params }) {
 		const profilRef = doc(db, 'profil', params.id);
 		const profilSnapshot = await getDoc(profilRef);
 		const data = profilSnapshot.data();
-		console.log(profilSnapshot.data());
 		return {
 			data,
 			id: params.id

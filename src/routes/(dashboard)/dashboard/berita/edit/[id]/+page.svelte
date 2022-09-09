@@ -2,8 +2,8 @@
 	import { db, storage } from '$lib/external/firebase.js';
 	import { updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 	import { goto } from '$app/navigation';
-	import Editor from '@tinymce/tinymce-svelte';
 	import { deleteObject, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+	import { onMount } from 'svelte';
 
 	export let data;
 
@@ -11,7 +11,9 @@
 
 	let berita = data.data;
 
-	let inputBody = berita.body;
+	let editor;
+	let date = new Date();
+
 	let inputTitle = berita.title;
 	let oldImageName = berita.imageName;
 	let inputImage;
@@ -19,15 +21,26 @@
 	let imageUrl = berita.imageUrl;
 	let newImageName = berita.imageName;
 	let editImageMode = false;
-	let date = new Date();
 	let newImageRef = ref(storage, 'images/' + berita.imageName);
 
-	console.log(inputImage);
 	let button = 'bg-green-500 text-white hover:bg-green-400';
 	let disabled = '';
 
+	const loadingEditor = async () => {
+		try {
+			const module = await import('@ckeditor/ckeditor5-build-classic');
+			let ClassicEditor = module.default;
+			let editor = await ClassicEditor.create(document.querySelector('#editor'));
+			return editor;
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const replaceImage = () => {
 		setTimeout(() => {
+			button = 'bg-slate-300 text-slate-500';
+			disabled = 'disabled';
 			const newImage = inputImage[0];
 			const newImageExtension = newImage.name.split('.').pop();
 			newImageName = `${date.getDate()}-${date.getMonth().toString()}-${date
@@ -70,7 +83,7 @@
 			const beritaRef = doc(db, 'berita', id);
 			const docRef = await updateDoc(beritaRef, {
 				title: inputTitle,
-				body: inputBody,
+				body: editor.getData(),
 				imageUrl,
 				imageName: newImageName,
 				updateAt: serverTimestamp()
@@ -86,6 +99,10 @@
 			disabled = '';
 		}
 	};
+
+	onMount(async () => {
+		editor = await loadingEditor();
+	});
 </script>
 
 <section class="dashboard-section">
@@ -99,14 +116,6 @@
 				class="py-1 px-4 text-sm rounded"
 				name="title"
 				id="title"
-			/>
-		</div>
-		<div class="flex flex-col font-semibold gap-1 z-0">
-			<label for="title">Body</label>
-			<Editor
-				bind:value={inputBody}
-				scriptSrc="{import.meta.env.VITE_appUrl}/tinymce/tinymce.min.js"
-				apiKey={import.meta.env.VITE_tinyMceApiKey}
 			/>
 		</div>
 		<div class="flex flex-col font-semibold gap-1 z-0">
@@ -151,6 +160,10 @@
 					<img src={imageUrl} alt="" />
 				</div>
 			{/if}
+		</div>
+		<div class="flex flex-col gap-1 z-0">
+			<label for="title">Body</label>
+			<textarea value={berita.body} name="body" id="editor" />
 		</div>
 		<input
 			class="{button} py-2 px-4 font-bold rounded block cursor-pointer"

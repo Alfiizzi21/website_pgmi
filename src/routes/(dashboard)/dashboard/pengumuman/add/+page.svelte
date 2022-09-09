@@ -3,14 +3,28 @@
 	import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 	import { goto } from '$app/navigation';
 	import Editor from '@tinymce/tinymce-svelte';
+	import { onMount } from 'svelte';
 
 	const host = import.meta.env.VITE_appUrl;
+
+	let editor;
 
 	let pengumuman = ' ';
 	let keterangan = ' ';
 	let button = 'bg-green-500 text-white hover:bg-green-400';
 	let disabled = '';
 	let date = new Date();
+
+	const loadingEditor = async () => {
+		try {
+			const module = await import('@ckeditor/ckeditor5-build-classic');
+			let ClassicEditor = module.default;
+			let editor = await ClassicEditor.create(document.querySelector('#editor'));
+			return editor;
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	const addPengumuman = async () => {
 		button = 'bg-slate-300 text-slate-500';
@@ -20,7 +34,7 @@
 		try {
 			const docRef = await addDoc(pengumumanRef, {
 				pengumuman,
-				keterangan,
+				keterangan: editor.getData(),
 				createdAt: serverTimestamp(),
 				updateAt: serverTimestamp()
 			});
@@ -32,6 +46,9 @@
 			disabled = '';
 		}
 	};
+	onMount(async () => {
+		editor = await loadingEditor();
+	});
 </script>
 
 <section class="dashboard-section">
@@ -49,12 +66,8 @@
 			/>
 		</div>
 		<div class="flex flex-col font-semibold gap-1 z-0">
-			<label for="title">Keterangan</label>
-			<Editor
-				bind:value={keterangan}
-				scriptSrc="{host}/tinymce/tinymce.min.js"
-				apiKey={import.meta.env.VITE_tinyMceApiKey}
-			/>
+			<label for="title">Body</label>
+			<textarea name="body" id="editor" />
 		</div>
 		<input
 			class="py-2 px-4 font-bold rounded block {button} cursor-pointer"

@@ -123,7 +123,7 @@
 					<div class="w-full h-1 bg-slate-300 mb-1">
 						<div
 							style="width: {uploadImgProgress};"
-							class="h-1 bg-sky-900 transition-transform duration-300"
+							class="h-1 bg-sky-900 transition-transform duration-500"
 						/>
 					</div>
 					<input
