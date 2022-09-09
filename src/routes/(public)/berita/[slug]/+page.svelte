@@ -3,6 +3,7 @@
 	import Sharemodal from '$lib/component/Sharemodal.svelte';
 	import { page } from '$app/stores';
 	export let data;
+	const host = import.meta.env.VITE_appUrl;
 
 	let berita = data.berita;
 	let meta = data.meta;
@@ -42,6 +43,10 @@
 			</Sharemodal>
 		</div>
 	</div>
+</div>
+<div class="p-2 text-sm text-slate-500 sm:p-8">
+	<a href={host}>Beranda</a> > <a href="{host}/berita">Berita</a> >
+	<a href="{host}/berita/{berita.slug}">{berita.title}</a>
 </div>
 <main class=" sm:max-w-xl md:max-w-2xl lg:max-w-4xl mx-auto my-6 ">
 	<img class="object-cover aspect-[3/2] sm:mx-auto" src={berita.imageUrl} alt="image_berita" />

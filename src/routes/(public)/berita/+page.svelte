@@ -44,7 +44,7 @@
 	</div>
 </div>
 <div class="p-2 text-sm text-slate-500 sm:p-8">
-	<a href={host}>Beranda</a> > <a href="{host}/berita">Semua Berita</a>
+	<a href={host}>Beranda</a> > <a href="{host}/berita">Berita</a>
 </div>
 <svelte:head>
 	<title>Berita PGMI UIN Jambi</title>
@@ -75,8 +75,8 @@
 		{:else}
 			<section class="my-8 grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 				{#each berita as b}
-					<div class="card mx-4 sm:mx-0">
-						<figure class="aspect-video md:aspect-[3/2] overflow-hidden">
+					<div class="card mx-4 sm:mx-0 shadow-md rounded">
+						<figure class="aspect-video md:aspect-[3/2] overflow-hidden rounded">
 							<a href="{host}/berita/{b.slug}">
 								<img
 									class="object-cover w-full cursor-pointer transition-transform duration-500 hover:scale-150 "
@@ -85,26 +85,28 @@
 								/>
 							</a>
 						</figure>
-						<div class="flex justify-between pt-2">
-							<div class="flex text-sm font-semibold text-slate-700">
+						<div class="flex justify-between px-2">
+							<div class="flex items-center text-sm font-semibold text-slate-700">
 								<span class="material-icons text-base"> calendar_month </span>
 								{b.date}
 								<span class="material-icons ml-1 text-base"> schedule </span>
 								{b.hour}
 							</div>
 							<Sharemodal url="{host}/berita/{b.slug}">
-								<button class="">
+								<button class=" text-slate-700">
 									<span class="material-icons"> share </span>
 								</button>
 							</Sharemodal>
 						</div>
 						<a href="{host}/berita/{b.slug}">
-							<h2 class="text-lg font-semibold hover:text-sky-900 cursor-pointer">
-								{b.title}
-							</h2>
-							<p>
-								{truncate(removeTags(b.body), 100)}
-							</p>
+							<div class="px-2 pb-2">
+								<h2 class="font-semibold text-lg hover:text-sky-900">
+									{b.title}
+								</h2>
+								<p>
+									{truncate(removeTags(b.body), 100)}
+								</p>
+							</div>
 						</a>
 					</div>
 				{/each}
