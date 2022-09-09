@@ -54,12 +54,18 @@
 </svelte:head>
 
 <section id="hero">
-	<div class="absolute aspect-video w-full bg-black opacity-20" />
+	<div
+		class="absolute aspect-video w-full bg-black bg-opacity-60 flex flex-col justify-center items-center"
+	>
+		<h1 class="text-white font-bold text-xl sm:text-2xl lg:text-4xl w-60 lg:w-96 text-center">
+			Selamat Datang Di Website Resmi <span class="block text-sky-600">PGMI UIN Jambi</span>
+		</h1>
+	</div>
 	<picture class="w-full">
 		<source media="(max-width: 640px)" srcset="image/hero-640w.jpg" />
 		<source media="(max-width: 768px)" srcset="image/hero-768w.jpg" />
 		<source media="(max-width: 1024px)" srcset="image/hero-1024w.jpg" />
-		<source media="(min-width: 1280px)" srcset="image/hero-1280w.jpg" />
+		<source media="(max-width: 1280px)" srcset="image/hero-1280w.jpg" />
 		<img width="1920" height="1080" class="w-full" src="image/hero.webp" alt="hero" />
 	</picture>
 </section>
@@ -67,8 +73,7 @@
 	<div class="grid grid-cols-4 pb-8">
 		<section class="col-span-4">
 			<div class="section_title my-8">
-				<h1 class="text-center text-2xl font-bold text-sky-900">BERITA TERBARU</h1>
-
+				<h2 class="text-center text-xl md:text-2xl font-bold text-sky-900">BERITA TERBARU</h2>
 				<div class="font-semibold text-sky-700">
 					<a class="mx-auto flex w-max" href="/berita">
 						<div>Lihat Semua Berita</div>
@@ -91,7 +96,7 @@
 							</figure>
 							<div class="font-semibold uppercase text-slate-400">{b.hari},{b.tanggal}</div>
 							<a href="{host}/berita/{b.slug}">
-								<h2 class="text-xl font-semibold uppercase hover:text-sky-900">{b.title}</h2>
+								<h3 class="text-xl font-semibold uppercase hover:text-sky-900">{b.title}</h3>
 								<div class="indent-4">{truncate(removeTags(b.body), 150)}</div>
 							</a>
 						</div>
@@ -109,7 +114,7 @@
 							<div class="w-3/4">
 								<div class="text-sm font-semibold uppercase text-slate-400">{b.tanggal}</div>
 								<a href="{host}/berita/{b.slug}">
-									<h2 class="text-lg font-semibold uppercase hover:text-sky-900">{b.title}</h2>
+									<h3 class="text-lg font-semibold uppercase hover:text-sky-900">{b.title}</h3>
 								</a>
 							</div>
 						</div>
@@ -119,7 +124,7 @@
 		</section>
 		<section class="col-span-4 lg:col-span-2">
 			<div class="section_title my-8 mx-2 ">
-				<h1 class="text-center text-2xl font-bold text-sky-900">AGENDA</h1>
+				<h2 class="text-center text-xl md:text-2xl font-bold text-sky-900">AGENDA</h2>
 			</div>
 			<div>
 				<div class="m-4 flex gap-4">
@@ -128,9 +133,9 @@
 						<div class="rounded-b bg-white uppercase text-sky-900">agu</div>
 					</div>
 					<div class="agenda w-3/4">
-						<h2 class="agenda_title  text-lg font-semibold">
+						<h3 class="agenda_title  text-lg font-semibold">
 							Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, dolores.
-						</h2>
+						</h3>
 						<div class="agenda_ket flex flex-col text-base text-slate-500 md:flex-row md:gap-4">
 							<div class="flex ">
 								<span class="material-icons mr-2"> schedule </span>
@@ -149,9 +154,9 @@
 						<div class="rounded-b bg-white uppercase text-sky-900">apr</div>
 					</div>
 					<div class="agenda w-3/4">
-						<h2 class="agenda_title  text-lg font-semibold">
+						<h3 class="agenda_title  text-lg font-semibold">
 							Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, dolores.
-						</h2>
+						</h3>
 						<div class="agenda_ket flex flex-col text-base text-slate-500 md:flex-row md:gap-4">
 							<div class="flex ">
 								<span class="material-icons mr-2"> schedule </span>
@@ -168,7 +173,7 @@
 		</section>
 		<section class="col-span-4 lg:col-span-2">
 			<div class="section_title my-8 mx-2 ">
-				<h1 class="text-center text-2xl font-bold text-sky-900">PENGUMUMAN</h1>
+				<h2 class="text-center text-xl md:text-2xl font-bold text-sky-900">PENGUMUMAN</h2>
 			</div>
 			{#each pengumuman as p}
 				<div class="m-4">
@@ -178,9 +183,9 @@
 							{p.hari}, {p.tanggal}
 						</div>
 					</div>
-					<h2 class="text-lg font-semibold capitalize">
+					<h3 class="text-lg font-semibold capitalize">
 						{p.pengumuman}
-					</h2>
+					</h3>
 				</div>
 			{/each}
 		</section>
