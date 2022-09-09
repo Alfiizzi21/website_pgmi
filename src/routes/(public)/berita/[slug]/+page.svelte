@@ -44,13 +44,15 @@
 		</div>
 	</div>
 </div>
-<div class="p-2 text-sm text-slate-500 sm:p-8">
+<div class="p-2 text-sm text-slate-500 sm:py-4 sm:px-8">
 	<a href={host}>Beranda</a> > <a href="{host}/berita">Berita</a> >
 	<a href="{host}/berita/{berita.slug}">{berita.title}</a>
 </div>
-<main class=" sm:max-w-xl md:max-w-2xl lg:max-w-4xl mx-auto my-6 ">
-	<img class="object-cover aspect-[3/2] sm:mx-auto" src={berita.imageUrl} alt="image_berita" />
-	<article class="mt-4 prose prose-p:indent-4 ">
+<main class="mt-4 mb-8 xl:max-w-4xl lg:max-w-3xl md:max-w-2xl sm:max-w-xl mx-auto">
+	<article
+		class="prose px-2 sm:px-0 max-w-none prose-p:indent-4 prose-img:rounded-md prose-img:shadow-md"
+	>
+		<img src={berita.imageUrl} alt="image_berita" />
 		<h2 class="w-0 h-0 opacity-0">{berita.title}</h2>
 		{@html berita.body}
 	</article>
