@@ -8,7 +8,7 @@
 </script>
 
 <ShareButton {href} ariaLabel="share on whatsapp">
-	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48px" height="48px"
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="35px" height="35px"
 		><path
 			fill="#3F51B5"
 			d="M42,37c0,2.762-2.238,5-5,5H11c-2.761,0-5-2.238-5-5V11c0-2.762,2.239-5,5-5h26c2.762,0,5,2.238,5,5V37z"
