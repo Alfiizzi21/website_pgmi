@@ -63,7 +63,7 @@
 		<img width="1920" height="1080" class="w-full" src="image/hero.webp" alt="hero" />
 	</picture>
 </section>
-<Container>
+<main class="container mx-auto">
 	<div class="grid grid-cols-4 pb-8">
 		<section class="col-span-4">
 			<div class="section_title my-8">
@@ -185,7 +185,7 @@
 			{/each}
 		</section>
 	</div>
-</Container>
+</main>
 
 <style>
 	.center_all {
