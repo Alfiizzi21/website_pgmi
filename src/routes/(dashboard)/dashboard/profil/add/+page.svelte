@@ -2,25 +2,14 @@
 	import { slugify } from '$lib/script/lib.js';
 	import { goto } from '$app/navigation';
 	import { db } from '$lib/external/firebase.js';
-	import { doc, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore';
-	import { onMount } from 'svelte';
-	const host = import.meta.env.VITE_appUrl;
+	import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+	import Editor from '@tinymce/tinymce-svelte';
 
-	let editor;
+	const host = import.meta.env.VITE_appUrl;
 	let button = 'bg-green-500 text-white hover:bg-green-400';
 	let disabled = '';
 	let title;
-
-	const loadingEditor = async () => {
-		try {
-			const module = await import('@ckeditor/ckeditor5-build-classic');
-			let ClassicEditor = module.default;
-			let editor = await ClassicEditor.create(document.querySelector('#editor'));
-			return editor;
-		} catch (error) {
-			console.log(error);
-		}
-	};
+	let body;
 
 	const addSection = async () => {
 		try {
@@ -33,8 +22,8 @@
 			const profilRef = doc(db, 'profil', title);
 			await setDoc(profilRef, {
 				title,
+				body,
 				secRef: slugify(title),
-				body: editor.getData(),
 				createdAt: serverTimestamp(),
 				updateAt: serverTimestamp()
 			});
@@ -43,9 +32,6 @@
 			alert(err);
 		}
 	};
-	onMount(async () => {
-		editor = await loadingEditor();
-	});
 </script>
 
 <section class="dashboard-section">
@@ -64,7 +50,16 @@
 		</div>
 		<div class="flex flex-col font-semibold gap-1 z-0">
 			<label for="title">Body</label>
-			<textarea name="body" id="editor" />
+			<Editor
+				conf={{
+					plugins: ['lists', 'advlist'],
+					toolbar:
+						' undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify| numlist bullist | outdent indent ',
+					menubar: false
+				}}
+				bind:value={body}
+				scriptSrc="{host}/tinymce/tinymce.min.js"
+			/>
 		</div>
 
 		<input

@@ -4,10 +4,11 @@
 	import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 	import { goto } from '$app/navigation';
 	import { slugify } from '$lib/script/lib.js';
-	import { onMount } from 'svelte';
+	import Editor from '@tinymce/tinymce-svelte';
+	const host = import.meta.env.VITE_appUrl;
 
-	let editor;
-	let inputTitle = ' ';
+	let title = ' ';
+	let body = ' ';
 	let uploadImgProgress = '0%';
 	let inputImage;
 
@@ -19,17 +20,6 @@
 	let disabled = 'disabled';
 	let date = new Date();
 	let imageRef;
-
-	const loadingEditor = async () => {
-		try {
-			const module = await import('@ckeditor/ckeditor5-build-classic');
-			let ClassicEditor = module.default;
-			let editor = await ClassicEditor.create(document.querySelector('#editor'));
-			return editor;
-		} catch (error) {
-			console.log(error);
-		}
-	};
 
 	const uploadImg = async () => {
 		setTimeout(() => {
@@ -69,17 +59,17 @@
 				imageUrl = url;
 			})
 			.catch((error) => {
-				alert('error');
+				alert(error);
 			});
 
 		const beritaRef = collection(db, 'berita');
 		try {
 			const docRef = await addDoc(beritaRef, {
-				title: inputTitle,
-				slug: slugify(inputTitle),
+				title,
+				body,
+				slug: slugify(title),
 				imageUrl: imageUrl,
 				imageName: imageName,
-				body: editor.getData(),
 				year: date.getFullYear(),
 				createdAt: serverTimestamp(),
 				updateAt: serverTimestamp()
@@ -92,10 +82,6 @@
 			disabled = '';
 		}
 	};
-
-	onMount(async () => {
-		editor = await loadingEditor();
-	});
 </script>
 
 <section class="dashboard-section">
@@ -105,7 +91,7 @@
 			<label for="title">Title</label>
 			<input
 				required
-				bind:value={inputTitle}
+				bind:value={title}
 				type="text"
 				class="py-1 px-4 text-sm rounded"
 				name="title"
@@ -140,7 +126,16 @@
 		</div>
 		<div class="flex flex-col gap-1 z-0">
 			<label for="title">Body</label>
-			<textarea name="body" id="editor" />
+			<Editor
+				conf={{
+					plugins: ['lists', 'advlist'],
+					toolbar:
+						' undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify| numlist bullist | outdent indent ',
+					menubar: false
+				}}
+				bind:value={body}
+				scriptSrc="{host}/tinymce/tinymce.min.js"
+			/>
 		</div>
 		<input
 			class="py-2 px-4 font-bold rounded block {button} cursor-pointer"

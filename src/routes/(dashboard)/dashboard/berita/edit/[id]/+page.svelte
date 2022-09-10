@@ -3,18 +3,19 @@
 	import { updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 	import { goto } from '$app/navigation';
 	import { deleteObject, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-	import { onMount } from 'svelte';
+	import Editor from '@tinymce/tinymce-svelte';
+
+	const host = import.meta.env.VITE_appUrl;
 
 	export let data;
 
 	let id = data.id;
 
 	let berita = data.data;
-
-	let editor;
 	let date = new Date();
 
 	let inputTitle = berita.title;
+	let inputBody = berita.body;
 	let oldImageName = berita.imageName;
 	let inputImage;
 	let uploadImgProgress = 0;
@@ -25,17 +26,6 @@
 
 	let button = 'bg-green-500 text-white hover:bg-green-400';
 	let disabled = '';
-
-	const loadingEditor = async () => {
-		try {
-			const module = await import('@ckeditor/ckeditor5-build-classic');
-			let ClassicEditor = module.default;
-			let editor = await ClassicEditor.create(document.querySelector('#editor'));
-			return editor;
-		} catch (error) {
-			console.log(error);
-		}
-	};
 
 	const replaceImage = () => {
 		setTimeout(() => {
@@ -83,7 +73,7 @@
 			const beritaRef = doc(db, 'berita', id);
 			const docRef = await updateDoc(beritaRef, {
 				title: inputTitle,
-				body: editor.getData(),
+				body: inputBody,
 				imageUrl,
 				imageName: newImageName,
 				updateAt: serverTimestamp()
@@ -99,10 +89,6 @@
 			disabled = '';
 		}
 	};
-
-	onMount(async () => {
-		editor = await loadingEditor();
-	});
 </script>
 
 <section class="dashboard-section">
@@ -163,7 +149,16 @@
 		</div>
 		<div class="flex flex-col gap-1 z-0">
 			<label for="title">Body</label>
-			<textarea value={berita.body} name="body" id="editor" />
+			<Editor
+				conf={{
+					plugins: ['lists', 'advlist'],
+					toolbar:
+						' undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify| numlist bullist | outdent indent ',
+					menubar: false
+				}}
+				bind:value={inputBody}
+				scriptSrc="{host}/tinymce/tinymce.min.js"
+			/>
 		</div>
 		<input
 			class="{button} py-2 px-4 font-bold rounded block cursor-pointer"
