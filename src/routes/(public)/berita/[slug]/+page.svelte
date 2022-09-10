@@ -6,22 +6,21 @@
 	const host = import.meta.env.VITE_appUrl;
 
 	let berita = data.berita;
-	let meta = data.meta;
 
 	const url = $page.url.href;
 </script>
 
 <svelte:head>
-	<title>{meta.title}</title>
-	<meta name="description" content={meta.desc} />
+	<title>{berita.title}</title>
+	<meta name="description" content={berita.desc} />
 	<meta name="googlebot" content="notranslate" />
-	<meta property="og:title" content={meta.title} />
+	<meta property="og:title" content={berita.title} />
 	<meta property="og:type" content="news" />
 	<meta property="og:url" content={url} />
-	<meta property="og:image" content={meta.image} />
-	<meta name="twitter:title" content={meta.title} />
-	<meta name="twitter:description" content={meta.desc} />
-	<meta name="twitter:image" content=" {meta.image}" />
+	<meta property="og:image" content={berita.imageUrl} />
+	<meta name="twitter:title" content={berita.title} />
+	<meta name="twitter:description" content={berita.desc} />
+	<meta name="twitter:image" content=" {berita.imageUrl}" />
 	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
@@ -52,7 +51,7 @@
 	<article
 		class="prose px-2 sm:px-0 max-w-none prose-p:indent-4 prose-img:rounded-md prose-img:shadow-md"
 	>
-		<img src={berita.imageUrl} alt="image_berita" />
+		<img src={berita.imageUrl} alt={berita.imageName} />
 		<h2 class="w-0 h-0 opacity-0">{berita.title}</h2>
 		{@html berita.body}
 	</article>

@@ -14,12 +14,10 @@ export async function load({ params }) {
 		const beritaSnapshot = await getDocs(q);
 		beritaSnapshot.forEach((e) => {
 			dataBerita = e.data();
-			dataMeta = e.data();
-			dataMeta.desc = truncate(removeTags(dataMeta.body), 150);
+			dataBerita.desc = truncate(removeTags(dataBerita.body), 150);
 		});
 		return {
-			berita: dataBerita,
-			meta: dataMeta
+			berita: dataBerita
 		};
 	} catch (err) {
 		throw error(404, err);
