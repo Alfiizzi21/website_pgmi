@@ -18,7 +18,7 @@
 	let inputBody = berita.body;
 	let oldImageName = berita.imageName;
 	let inputImage;
-	let uploadImgProgress = 0;
+	let uploadImgProgress = 'w-0';
 	let imageUrl = berita.imageUrl;
 	let newImageName = berita.imageName;
 	let editImageMode = false;
@@ -43,7 +43,7 @@
 			uploadTask.on(
 				'state_changed',
 				(snapshot) => {
-					uploadImgProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100 + '%';
+					uploadImgProgress = `w-[${(snapshot.bytesTransferred / snapshot.totalBytes) * 100}%]`;
 				},
 				(error) => {
 					alert(error);
@@ -115,10 +115,7 @@
 				</div>
 				<div class="bg-white rounded">
 					<div class="w-full h-1 bg-slate-300 mt-1 mb-2">
-						<div
-							style="width: {uploadImgProgress};"
-							class="h-1 bg-sky-900 transition-transform duration-300"
-						/>
+						<div class="h-1 {uploadImgProgress} bg-sky-900 transition-transform duration-300" />
 					</div>
 					<input
 						on:input={replaceImage}

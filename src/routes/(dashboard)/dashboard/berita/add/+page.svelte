@@ -9,7 +9,7 @@
 
 	let title = ' ';
 	let body = ' ';
-	let uploadImgProgress = '0%';
+	let uploadImgProgress = 'w-0';
 	let inputImage;
 
 	let imageName;
@@ -36,14 +36,17 @@
 			uploadTask.on(
 				'state_changed',
 				(snapshot) => {
-					uploadImgProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100 + '%';
+					uploadImgProgress = `w-[${(snapshot.bytesTransferred / snapshot.totalBytes) * 100}%]`;
 				},
 				(error) => {
 					alert(error);
 				},
 				() => {
 					alert('image berhasil di upload');
-					preview = URL.createObjectURL(image);
+					setTimeout(() => {
+						preview = URL.createObjectURL(image);
+					}, 1000);
+
 					button = 'bg-green-500 text-white hover:bg-green-400';
 					disabled = '';
 				}
@@ -107,10 +110,7 @@
 			{:else}
 				<div class="bg-white py-2 rounded">
 					<div class="w-full h-1 bg-slate-300 mb-1">
-						<div
-							style="width: {uploadImgProgress};"
-							class="h-1 bg-sky-900 transition-transform duration-500"
-						/>
+						<div class="h-1 {uploadImgProgress} bg-sky-900 transition-transform" />
 					</div>
 					<input
 						on:input={uploadImg}
