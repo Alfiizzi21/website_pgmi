@@ -45,9 +45,9 @@
 		return tempArr;
 	};
 	onMount(async () => {
+		welcomeClass = '';
 		berita = await getBerita();
 		pengumuman = await getPengumuman();
-		welcomeClass = '';
 	});
 </script>
 
