@@ -60,7 +60,7 @@
 		class="absolute aspect-video w-full bg-black bg-opacity-60 flex flex-col justify-center items-center"
 	>
 		<h1
-			class="text-white font-bold text-xl sm:text-2xl lg:text-4xl w-60 lg:w-96 text-center transition-all duration-300 {welcomeClass}"
+			class="text-white font-bold text-xl sm:text-2xl lg:text-4xl w-60 lg:w-96 text-center transition-all duration-1000 {welcomeClass}"
 		>
 			Selamat Datang Di Website Resmi <span class="block text-sky-600">PGMI UIN Jambi</span>
 		</h1>
