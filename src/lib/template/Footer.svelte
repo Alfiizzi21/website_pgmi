@@ -1,12 +1,12 @@
 <script>
-	import logo from './pgmi.png';
+	const host = import.meta.env.VITE_appUrl;
 </script>
 
 <footer class="bg-sky-900 p-4 sm:p-6">
 	<div class="md:flex md:justify-between">
 		<div class="mb-6 md:mb-0">
-			<a href="./" class="flex items-center">
-				<img height="64" width="213" src={logo} class="mx-auto" alt="PGMI Logo" />
+			<a href={host} class="flex items-center">
+				<img height="64" width="213" src="{host}/logo.png" class="mx-auto" alt="PGMI Logo" />
 			</a>
 		</div>
 		<div class="grid grid-cols-3 gap-8 sm:grid-cols-4 sm:gap-7">
