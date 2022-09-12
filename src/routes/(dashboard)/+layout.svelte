@@ -5,6 +5,7 @@
 	import NavButton from '$lib/component/NavButton.svelte';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	const host = import.meta.env.VITE_appUrl;
 
 	let view = false;
 	const auth = getAuth();
@@ -34,32 +35,34 @@
 
 {#if view}
 	<header
-		class="flex px-4 justify-between z-50 shadow fixed items-center bg-sky-500 text-white top-0 right-0 left-0 h-14"
+		class="flex px-4 justify-between z-50 shadow fixed items-center bg-sky-900 text-white top-0 right-0 left-0 h-14"
 	>
-		<div class="text-2xl">Dashboard</div>
-		<button on:click={logOut}>
-			<span class="material-icons hover:text-red-500"> logout </span>
+		<a href={host}>
+			<img height="40" width="133" src="{host}/logo.png" alt="pgmi logo" />
+		</a>
+		<button class="hover:text-red-500 hover:bg-sky-800 w-10 h-10 p-2 " on:click={logOut}>
+			<span class="material-icons "> logout </span>
 		</button>
 	</header>
-	<aside class="fixed bg-sky-500 w-20 top-14 h-screen text-white">
+	<aside class="fixed bg-sky-900 w-20 top-14 h-screen text-white">
 		<nav>
-			<ul class="flex gap-2 flex-col">
+			<ul class="flex flex-col">
 				<li>
 					<NavButton link="" />
 				</li>
 				<li>
-					<NavButton link="profil" icon="badge" text="Profil" />
+					<NavButton link="/profil" icon="badge" text="Profil" />
 				</li>
 				<li>
-					<NavButton link="berita" icon="newspaper" text="berita" />
+					<NavButton link="/berita" icon="newspaper" text="berita" />
 				</li>
 				<li>
-					<NavButton link="pengumuman" icon="campaign" text="Pengumuman" />
+					<NavButton link="/pengumuman" icon="campaign" text="Pengumuman" />
 				</li>
 			</ul>
 		</nav>
 	</aside>
-	<main class="mt-14 py-4 sm:ml-20">
+	<main class="mt-14 py-4 px-2 sm:pl-0 sm:ml-20 min-h-screen bg-sky-50">
 		<slot />
 	</main>
 {:else}
