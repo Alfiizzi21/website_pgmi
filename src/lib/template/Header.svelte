@@ -4,7 +4,6 @@
 	import { db } from '$lib/external/firebase.js';
 	import { onMount } from 'svelte';
 	import { collection, getDocs } from 'firebase/firestore';
-	import { each } from 'svelte/internal';
 
 	let y;
 	let headerclass;
@@ -102,21 +101,6 @@
 			<a href="{host}/berita">
 				<li class="flex h-11 w-full items-center px-4 hover:text-sky-600 md:h-16 ">Berita</li>
 			</a>
-			<!-- <li
-				class="group flex w-full flex-col gap-1 px-4 hover:text-sky-600 md:h-16 md:flex-row md:items-center "
-			>
-				<div class="flex h-11 items-center">
-					Informasi <span class="material-icons">expand_more</span>
-				</div>
-				<ul class="md:absolute md:top-12 md:hidden md:bg-sky-700 md:group-hover:block">
-					<li class="py-2 px-6 hover:text-sky-600 md:p-4 md:hover:bg-sky-900 md:hover:text-white">
-						Berita
-					</li>
-					<li class=" py-2 px-6 hover:text-sky-600 md:p-4 md:hover:bg-sky-900 md:hover:text-white">
-						Pengumuman
-					</li>
-				</ul>
-			</li> -->
 			<li
 				class="group flex w-full flex-col gap-1 px-4 hover:text-sky-600 md:h-16 md:flex-row md:items-center "
 			>
