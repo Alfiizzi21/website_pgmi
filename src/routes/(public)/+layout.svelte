@@ -3,7 +3,25 @@
 	import '../../app.css';
 	import Header from '$lib/template/Header.svelte';
 	import Footer from '$lib/template/Footer.svelte';
+	import { navigating } from '$app/stores';
 	const host = import.meta.env.VITE_appUrl;
+	let loadingPage = false;
+	let progress = 'w-0';
+	$: if (!!$navigating) {
+		loadingPage = true;
+		setTimeout(() => {
+			progress = 'w-1/2';
+		}, 100);
+		setTimeout(() => {
+			progress = 'w-3/4';
+		}, 200);
+	} else {
+		progress = 'w-full';
+		setTimeout(() => {
+			loadingPage = false;
+			progress = 'w-0';
+		}, 500);
+	}
 
 	let load = false;
 	let imgClass = '';
@@ -29,6 +47,11 @@
 			src="{host}/logo.png"
 			alt=""
 		/>
+	</div>
+{/if}
+{#if loadingPage}
+	<div class="fixed w-full top-0 z-50 h-[2px] bg-slate-100">
+		<div class="{progress} bg-sky-900 h-full transition-all duration-500" />
 	</div>
 {/if}
 
