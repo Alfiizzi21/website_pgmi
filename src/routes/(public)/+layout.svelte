@@ -15,6 +15,9 @@
 		setTimeout(() => {
 			progress = 'w-3/4';
 		}, 200);
+		setTimeout(() => {
+			progress = 'w-11/12';
+		}, 1000);
 	} else {
 		progress = 'w-full';
 		setTimeout(() => {
