@@ -14,17 +14,21 @@
 		const beritaRef = collection(db, 'berita');
 		const q = query(beritaRef, where('year', '==', year));
 		let tempArr = [];
+		try {
+			let beritaSnapshot = await getDocs(q);
 
-		let beritaSnapshot = await getDocs(q);
+			beritaSnapshot.forEach((doc) => {
+				const date = timeConverter(doc.data().createdAt.seconds);
+				const hour = timeConverterToHour(doc.data().createdAt.seconds);
+				const data = doc.data();
+				data.date = date;
+				data.hour = hour;
+				tempArr = [...tempArr, data];
+			});
+		} catch (err) {
+			alert(err);
+		}
 
-		beritaSnapshot.forEach((doc) => {
-			const date = timeConverter(doc.data().createdAt.seconds);
-			const hour = timeConverterToHour(doc.data().createdAt.seconds);
-			const data = doc.data();
-			data.date = date;
-			data.hour = hour;
-			tempArr = [...tempArr, data];
-		});
 		return tempArr;
 	};
 	const selectYear = async () => {
@@ -37,7 +41,7 @@
 
 <div class="md:mt-16">
 	<img class="aspect-[3/1] w-full object-cover" src={Newsheader} alt="news header" />
-	<div class="aspect-[3/1] w-full bg-black absolute top-16 bg-opacity-25 text-white flex items-end">
+	<div class="aspect-[3/1] w-full bg-black absolute top-16 bg-opacity-50 text-white flex items-end">
 		<div class="m-4 capitalize font-semibold text-2xl  sm:text-4xl lg:m-8 xl:text-14">
 			berita terbaru
 		</div>

@@ -2,6 +2,7 @@
 	import Newsheader from '$lib/img/newsheader.jpg';
 	import Sharemodal from '$lib/component/Sharemodal.svelte';
 	import { page } from '$app/stores';
+	import { timeConverter, timeConverterToHour } from '$lib/script/lib.js';
 	export let data;
 	const host = import.meta.env.VITE_appUrl;
 
@@ -15,24 +16,28 @@
 	<meta name="description" content={berita.desc} />
 	<meta name="googlebot" content="notranslate" />
 	<meta property="og:title" content={berita.title} />
-	<meta property="og:type" content="news" />
+	<meta property="og:type" content="article" />
 	<meta property="og:url" content={url} />
 	<meta property="og:image" content={berita.imageUrl} />
-	<meta name="twitter:title" content={berita.title} />
-	<meta name="twitter:description" content={berita.desc} />
-	<meta name="twitter:image" content=" {berita.imageUrl}" />
-	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <div class="text-2xl">
 	<div class="md:mt-16">
 		<img class="aspect-[3/1] w-full object-cover" src={Newsheader} alt="news header" />
 		<div
-			class="aspect-[3/1] w-full bg-black absolute top-16 bg-opacity-25 text-white flex items-end justify-between"
+			class="aspect-[3/1] w-full bg-black absolute top-16 bg-opacity-50 text-white flex items-end justify-between"
 		>
-			<h1 class="m-4 capitalize font-semibold text-2xl  sm:text-4xl lg:m-8 xl:text-14">
-				{berita.title}
-			</h1>
+			<div class="m-4 lg:m-8">
+				<h1 class="capitalize font-semibold text-2xl  sm:text-3xl  xl:text-14">
+					{berita.title}
+				</h1>
+				<div class="text-sm  font-semibold">
+					PGMI UIN Jambi, {timeConverter(berita.createdAt.seconds)}, {timeConverterToHour(
+						berita.createdAt.seconds
+					)}
+				</div>
+			</div>
+
 			<Sharemodal {url} title={berita.title}>
 				<div
 					class="float-right mr-4 flex h-12 w-12 -translate-y-4 lg:-translate-y-8 cursor-pointer items-center justify-center rounded-full bg-white hover:bg-sky-100"
