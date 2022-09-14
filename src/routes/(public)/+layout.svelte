@@ -7,22 +7,20 @@
 	const host = import.meta.env.VITE_appUrl;
 	let loadingPage = false;
 	let progress = 'w-0';
+
 	$: if (!!$navigating) {
 		loadingPage = true;
 		setTimeout(() => {
-			progress = 'w-1/2';
+			progress = 'w-1/12';
 		}, 100);
 		setTimeout(() => {
-			progress = 'w-3/4';
-		}, 200);
-		setTimeout(() => {
 			progress = 'w-11/12';
-		}, 1000);
+		}, 500);
 	} else {
 		progress = 'w-full';
 		setTimeout(() => {
-			loadingPage = false;
 			progress = 'w-0';
+			loadingPage = false;
 		}, 500);
 	}
 
@@ -53,7 +51,7 @@
 	</div>
 {/if}
 {#if loadingPage}
-	<div class="fixed w-full top-0 z-50 h-[2px] bg-slate-100">
+	<div class="fixed w-full top-0 z-50 h-1 bg-slate-300">
 		<div class="{progress} bg-sky-900 h-full transition-all duration-500" />
 	</div>
 {/if}
