@@ -6,9 +6,17 @@
 	import { onMount } from 'svelte';
 	const host = import.meta.env.VITE_appUrl;
 
-	let berita = [];
-	let pengumuman = [];
-	let welcomeClass = 'opacity-0 translate-y-40';
+	let berita = new Promise((resolve) => {
+		setInterval(() => {
+			resolve;
+		}, 100);
+	});
+	let pengumuman = new Promise((resolve) => {
+		setInterval(() => {
+			resolve;
+		}, 100);
+	});
+	let welcomeClass = 'opacity-0 translate-y-40  text-xs';
 
 	const getBerita = async () => {
 		const beritaRef = collection(db, 'berita');
@@ -45,7 +53,7 @@
 		return tempArr;
 	};
 	onMount(async () => {
-		welcomeClass = '';
+		welcomeClass = 'text-xl sm:text-2xl lg:text-4xl w-60 lg:w-96';
 		berita = await getBerita();
 		pengumuman = await getPengumuman();
 	});
@@ -59,10 +67,8 @@
 	<div
 		class="absolute aspect-video w-full bg-black bg-opacity-60 flex flex-col justify-center items-center"
 	>
-		<h1
-			class="text-white font-bold text-xl sm:text-2xl lg:text-4xl w-60 lg:w-96 text-center transition-all duration-1000 {welcomeClass}"
-		>
-			Selamat Datang Di Website Resmi <span class="block text-sky-600">PGMI UIN Jambi</span>
+		<h1 class="text-white font-bold text-center transition-all duration-1000 {welcomeClass}">
+			Selamat Datang Di <br /> Website Resmi <span class="block text-sky-600">PGMI UIN Jambi</span>
 		</h1>
 	</div>
 	<picture class="w-full">
@@ -86,44 +92,48 @@
 				</div>
 			</div>
 			<div class="grid md:grid-cols-3 md:grid-rows-4 xl:grid-rows-5 gap-2">
-				{#each berita as b, i}
-					{#if i == 0}
-						<div class="mx-4 md:mx-0 md:row-span-4 xl:row-span-5 md:col-span-2">
-							<figure class="overflow-hidden aspect-video w-full">
+				{#await berita}
+					<div>loading</div>
+				{:then berita}
+					{#each berita as b, i}
+						{#if i == 0}
+							<div class="mx-4 md:mx-0 md:row-span-4 xl:row-span-5 md:col-span-2">
+								<figure class="overflow-hidden aspect-video w-full">
+									<a href="{host}/berita/{b.slug}">
+										<img
+											class="transition-transform object-cover hover:scale-150"
+											src={b.imageUrl}
+											alt=""
+										/>
+									</a>
+								</figure>
+								<div class="font-semibold uppercase text-slate-400">{b.hari},{b.tanggal}</div>
 								<a href="{host}/berita/{b.slug}">
-									<img
-										class="transition-transform object-cover hover:scale-150"
-										src={b.imageUrl}
-										alt=""
-									/>
-								</a>
-							</figure>
-							<div class="font-semibold uppercase text-slate-400">{b.hari},{b.tanggal}</div>
-							<a href="{host}/berita/{b.slug}">
-								<h3 class="text-xl font-semibold uppercase hover:text-sky-900">{b.title}</h3>
-								<div class="indent-4">{truncate(removeTags(b.body), 150)}</div>
-							</a>
-						</div>
-					{:else}
-						<div class="mx-4 md:mx-0 flex gap-2">
-							<div class="overflow-hidden">
-								<a href="{host}/berita/{b.slug}">
-									<img
-										class="h-28 w-28 object-cover object-center transition-transform hover:scale-150"
-										src={b.imageUrl}
-										alt=""
-									/>
+									<h3 class="text-xl font-semibold uppercase hover:text-sky-900">{b.title}</h3>
+									<div class="indent-4">{truncate(removeTags(b.body), 150)}</div>
 								</a>
 							</div>
-							<div class="w-3/4">
-								<div class="text-sm font-semibold uppercase text-slate-400">{b.tanggal}</div>
-								<a href="{host}/berita/{b.slug}">
-									<h3 class="text-lg font-semibold uppercase hover:text-sky-900">{b.title}</h3>
-								</a>
+						{:else}
+							<div class="mx-4 md:mx-0 flex gap-2">
+								<div class="overflow-hidden">
+									<a href="{host}/berita/{b.slug}">
+										<img
+											class="h-28 w-28 object-cover object-center transition-transform hover:scale-150"
+											src={b.imageUrl}
+											alt=""
+										/>
+									</a>
+								</div>
+								<div class="w-3/4">
+									<div class="text-sm font-semibold uppercase text-slate-400">{b.tanggal}</div>
+									<a href="{host}/berita/{b.slug}">
+										<h3 class="text-lg font-semibold uppercase hover:text-sky-900">{b.title}</h3>
+									</a>
+								</div>
 							</div>
-						</div>
-					{/if}
-				{/each}
+						{/if}
+					{/each}
+				{/await}
 			</div>
 		</section>
 		<section class="col-span-4 lg:col-span-2">
@@ -179,19 +189,23 @@
 			<div class="section_title my-8 mx-2 ">
 				<h2 class="text-center text-xl md:text-2xl font-bold text-sky-900">PENGUMUMAN</h2>
 			</div>
-			{#each pengumuman as p}
-				<div class="m-4">
-					<div class="flex text-base text-slate-500">
-						<div class="flex capitalize">
-							<span class="material-icons mr-2"> calendar_month </span>
-							{p.hari}, {p.tanggal}
+			{#await pengumuman}
+				<div>loading</div>
+			{:then pengumuman}
+				{#each pengumuman as p}
+					<div class="m-4">
+						<div class="flex text-base text-slate-500">
+							<div class="flex capitalize">
+								<span class="material-icons mr-2"> calendar_month </span>
+								{p.hari}, {p.tanggal}
+							</div>
 						</div>
+						<h3 class="text-lg font-semibold capitalize">
+							{p.pengumuman}
+						</h3>
 					</div>
-					<h3 class="text-lg font-semibold capitalize">
-						{p.pengumuman}
-					</h3>
-				</div>
-			{/each}
+				{/each}
+			{/await}
 		</section>
 	</div>
 </main>
