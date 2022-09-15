@@ -6,24 +6,23 @@
 	export let url = import.meta.env.VITE_appUrl;
 	export let title = '';
 
-	let modalClass = 'hidden';
+	let bgModalClass = 'hidden';
+	let modalClass = '-translate-y-[300px]';
 
 	const closeModal = () => {
-		modalClass = 'hidden';
+		modalClass = '-translate-y-[300px]';
+		setTimeout(() => {
+			bgModalClass = 'hidden';
+		}, 300);
 	};
 	const openModal = () => {
-		modalClass = '';
+		bgModalClass = '';
+		setTimeout(() => {
+			modalClass = '';
+		}, 300);
 	};
 	const copyLink = () => {
-		copyText.select(); // Selects the text inside the input
-		document.execCommand('copy'); // Simply copies the selected text to clipboard
-		Swal.fire({
-			//displays a pop up with sweetalert
-			icon: 'success',
-			title: 'Text copied to clipboard',
-			showConfirmButton: false,
-			timer: 1000
-		});
+		alert('fitur copy link belum tersedia');
 	};
 </script>
 
@@ -31,9 +30,9 @@
 	<div on:click={openModal}>
 		<slot />
 	</div>
-	<div id="modal" class="fixed right-0 left-0 top-0 bottom-0 z-50 bg-black {modalClass}">
+	<div class="fixed  right-0 left-0 top-0 bottom-0 z-50 bg-black bg-opacity-70 {bgModalClass}">
 		<div
-			class="flex flex-col gap-4 mx-auto mt-8 rounded text-black bg-white p-6 text-base sm:w-[28rem]"
+			class="flex flex-col gap-4 mx-auto mt-8 rounded text-black bg-white p-6 text-base sm:w-[28rem] transition-transform duration-300 {modalClass}"
 		>
 			<div class="flex justify-between">
 				<div class="font-semibold text-lg">Bagikan</div>
@@ -47,7 +46,10 @@
 					value={url}
 					readonly
 				/>
-				<button class="flex h-10 w-10 items-center justify-center rounded-r bg-sky-900 text-white">
+				<button
+					on:click={copyLink}
+					class="flex h-10 w-10 items-center justify-center rounded-r bg-sky-900 text-white"
+				>
 					<span class="material-icons "> link </span>
 				</button>
 			</div>
@@ -59,9 +61,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	#modal {
-		background-color: rgba(0, 0, 0, 0.4);
-	}
-</style>
