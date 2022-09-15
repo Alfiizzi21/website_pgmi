@@ -1,5 +1,4 @@
 <script>
-	import Container from '$lib/component/Container.svelte';
 	import { db } from '$lib/external/firebase.js';
 	import { timeConverter, timeConverterToDay, truncate, removeTags } from '$lib/script/lib.js';
 	import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
