@@ -92,7 +92,14 @@
 			</div>
 			<div class="grid md:grid-cols-3 md:grid-rows-4 xl:grid-rows-5 gap-2">
 				{#await berita}
-					<div>loading</div>
+					<div class="mx-4 md:mx-0 md:row-span-4 xl:row-span-5 md:col-span-2 animate-pulse">
+						<div class="aspect-video bg-slate-300" />
+						<div class="w-36 mt-1 bg-slate-200 h-5 " />
+						<div class="mt-2 bg-slate-400 h-6 " />
+						<div class="mt-2 bg-slate-300 h-4 ml-4" />
+						<div class="mt-2 bg-slate-300 h-4 md:hidden" />
+						<div class="w-[350px] mt-2 bg-slate-300 h-4" />
+					</div>
 				{:then berita}
 					{#each berita as b, i}
 						{#if i == 0}
@@ -132,6 +139,8 @@
 							</div>
 						{/if}
 					{/each}
+				{:catch}
+					<div class="bg-red-300 text-red-600 border border-red-600 p-2">error</div>
 				{/await}
 			</div>
 		</section>
@@ -142,7 +151,7 @@
 			<div>
 				<div class="m-4 flex gap-4">
 					<div class="w-16 rounded border border-sky-900 text-center font-semibold">
-						<div class="center_all h-2/3 rounded-t bg-sky-900 text-4xl text-white">17</div>
+						<div class="center_all h-2/3 bg-sky-900 text-4xl text-white">17</div>
 						<div class="rounded-b bg-white uppercase text-sky-900">agu</div>
 					</div>
 					<div class="agenda w-3/4">
@@ -163,7 +172,7 @@
 				</div>
 				<div class="m-4 flex gap-4">
 					<div class="w-16 rounded border border-sky-900 text-center font-semibold">
-						<div class="center_all h-2/3 rounded-t bg-sky-900 text-4xl text-white">21</div>
+						<div class="center_all h-2/3 bg-sky-900 text-4xl text-white">21</div>
 						<div class="rounded-b bg-white uppercase text-sky-900">apr</div>
 					</div>
 					<div class="agenda w-3/4">
