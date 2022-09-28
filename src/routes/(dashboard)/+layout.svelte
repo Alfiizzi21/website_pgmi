@@ -59,6 +59,9 @@
 				<li>
 					<NavButton link="/pengumuman" icon="campaign" text="Pengumuman" />
 				</li>
+				<li>
+					<NavButton link="/agenda" icon="event" text="Agenda" />
+				</li>
 			</ul>
 		</nav>
 	</aside>

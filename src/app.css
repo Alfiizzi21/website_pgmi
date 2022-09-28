@@ -6,5 +6,8 @@
 	.dashboard-section {
 		@apply ml-20 mt-4 rounded shadow-md bg-white p-8 sm:mt-4 sm:mx-auto sm:max-w-md md:max-w-xl lg:max-w-4xl xl:max-w-6xl;
 	}
+	input{
+		@apply py-1 px-4 text-sm rounded bg-slate-200;
+	}
 }
 

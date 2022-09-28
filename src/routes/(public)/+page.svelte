@@ -15,6 +15,13 @@
 			resolve;
 		}, 100);
 	});
+
+	let agenda = new Promise((resolve) => {
+		setInterval(() => {
+			resolve;
+		}, 100);
+	});
+
 	let welcomeClass = 'opacity-0 translate-y-40  text-xs';
 
 	const getBerita = async () => {
@@ -51,9 +58,27 @@
 		});
 		return tempArr;
 	};
+	const getAgenda = async () => {
+		const agendaRef = collection(db, 'agenda');
+		const q = query(agendaRef, orderBy('createdAt', 'desc'), limit(4));
+		let tempArr = [];
+
+		let agendaSnapshot = await getDocs(q);
+
+		agendaSnapshot.forEach((doc) => {
+			let data = doc.data();
+			let date = timeConverter(data.tanggal.seconds);
+			let day = timeConverterToDay(data.tanggal.seconds);
+			data.tanggal = date;
+			data.hari = day;
+			tempArr = [...tempArr, data];
+		});
+		return tempArr;
+	};
 	onMount(async () => {
 		welcomeClass = 'text-xl sm:text-2xl lg:text-4xl w-60 lg:w-96';
 		berita = await getBerita();
+		agenda = await getAgenda();
 		pengumuman = await getPengumuman();
 	});
 </script>
@@ -149,48 +174,37 @@
 				<h2 class="text-center text-xl md:text-2xl font-bold text-sky-900">AGENDA</h2>
 			</div>
 			<div>
-				<div class="m-4 flex gap-4">
-					<div class="w-16 rounded border border-sky-900 text-center font-semibold">
-						<div class="center_all h-2/3 bg-sky-900 text-4xl text-white">17</div>
-						<div class="rounded-b bg-white uppercase text-sky-900">agu</div>
-					</div>
-					<div class="agenda w-3/4">
-						<h3 class="agenda_title  text-lg font-semibold">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, dolores.
-						</h3>
-						<div class="agenda_ket flex flex-col text-base text-slate-500 md:flex-row md:gap-4">
-							<div class="flex ">
-								<span class="material-icons mr-2"> schedule </span>
-								07:30 - 09-11
+				{#await agenda}
+					<div>Loading</div>
+				{:then agenda}
+					{#each agenda as a}
+						<div class="m-4 flex gap-4">
+							<div class="w-16 rounded border border-sky-900 text-center font-semibold">
+								<div class="center_all h-2/3 bg-sky-900 text-4xl text-white">
+									{a.tanggal.split(' ')[0]}
+								</div>
+								<div class="rounded-b bg-white uppercase text-sky-900">
+									{a.tanggal.split(' ')[1]}
+								</div>
 							</div>
-							<div class="flex">
-								<span class="material-icons mr-2"> pin_drop </span>
-								UIN Mendalo
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="m-4 flex gap-4">
-					<div class="w-16 rounded border border-sky-900 text-center font-semibold">
-						<div class="center_all h-2/3 bg-sky-900 text-4xl text-white">21</div>
-						<div class="rounded-b bg-white uppercase text-sky-900">apr</div>
-					</div>
-					<div class="agenda w-3/4">
-						<h3 class="agenda_title  text-lg font-semibold">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, dolores.
-						</h3>
-						<div class="agenda_ket flex flex-col text-base text-slate-500 md:flex-row md:gap-4">
-							<div class="flex ">
-								<span class="material-icons mr-2"> schedule </span>
-								07:30 - 09-11
-							</div>
-							<div class="flex">
-								<span class="material-icons mr-2"> pin_drop </span>
-								UIN Mendalo
+							<div class="agenda w-3/4">
+								<h3 class="agenda_title  text-lg font-semibold">
+									{a.kegiatan}
+								</h3>
+								<div class="agenda_ket flex flex-col text-base text-slate-500 md:flex-row md:gap-4">
+									<div class="flex ">
+										<span class="material-icons mr-2"> schedule </span>
+										{a.jam}
+									</div>
+									<div class="flex">
+										<span class="material-icons mr-2"> pin_drop </span>
+										{a.lokasi}
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
+					{/each}
+				{/await}
 			</div>
 		</section>
 		<section class="col-span-4 lg:col-span-2">

@@ -24,6 +24,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fullcalendar/core": "^5.11.3",
+		"@fullcalendar/daygrid": "^5.11.3",
+		"@fullcalendar/list": "^5.11.3",
+		"@fullcalendar/timegrid": "^5.11.3",
 		"@tailwindcss/typography": "^0.5.7",
 		"@tinymce/tinymce-svelte": "^1.0.0",
 		"firebase": "^9.9.4"
