@@ -179,7 +179,7 @@
 				{:then agenda}
 					{#each agenda as a}
 						<div class="m-4 flex gap-4">
-							<div class="w-16 rounded border border-sky-900 text-center font-semibold">
+							<div class="w-16 h-20 rounded border border-sky-900 text-center font-semibold">
 								<div class="center_all h-2/3 bg-sky-900 text-4xl text-white">
 									{a.tanggal.split(' ')[0]}
 								</div>
@@ -188,7 +188,7 @@
 								</div>
 							</div>
 							<div class="agenda w-3/4">
-								<h3 class="agenda_title  text-lg font-semibold">
+								<h3 class="agenda_title  text-lg sm:text-xl capitalize font-semibold">
 									{a.kegiatan}
 								</h3>
 								<div class="agenda_ket flex flex-col text-base text-slate-500 md:flex-row md:gap-4">
@@ -222,7 +222,7 @@
 								{p.hari}, {p.tanggal}
 							</div>
 						</div>
-						<h3 class="text-lg font-semibold capitalize">
+						<h3 class="text-lg sm:text-xl capitalize">
 							{p.pengumuman}
 						</h3>
 					</div>
